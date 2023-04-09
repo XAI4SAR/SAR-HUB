@@ -13,7 +13,7 @@ This project is for paper "SAR-HUB: Pre-training, Fine-tuning, and Explaining".
 3.  **Explaining:** Benefits of SAR pre-trained models in comparison to optical pre-trained models are explained.
     
 
-![](img/intro.png)
+![The project overview.](img/intro.png)
 
 We release this repository with reproducibility (open-source code and datasets), generalization (sufficient experiments on different tasks), and explainability (qualitative and quantitative explanations).
 
@@ -28,7 +28,7 @@ We release this repository with reproducibility (open-source code and datasets),
 
 ## Previously on SAR-HUB
 
-In our previous work, we discussed what, where, and how to transfer effectively in SAR image classification and proposed the SAR image pre-trained model (ResNet-18) based on large-scale SAR scene classification that achieved good performance in SAR target recognition downstream task. We tentatively analyzed the generality and specificity of features in different layers to explain the advantage of SAR pre-trained models.
+In our previous work, we discussed what, where, and how to transfer effectively in SAR image classification and proposed the SAR image pre-trained model (ResNet-18) based on large-scale SAR scene classification that achieved good performance in SAR target recognition downstream task. We tentatively analyzed the generality and specificity of features in different layers to demonstrate the advantage of SAR pre-trained models.
 
 ```LaTeX
 @article{huang2019,
