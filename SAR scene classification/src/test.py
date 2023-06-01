@@ -157,19 +157,19 @@ def parameter_setting():
     config['batch_size'] = 10
     
     if config['dataset'] == 'TerraSAR-X':
-        config['datatxt_test'] = ' '
+        config['datatxt_test'] = 'data/tsx_test.txt'
         config['nor_mean'] = 0.17721633016340846
         config['nor_std'] = 0.023696591996910408
         config['cate_num'] = 32
         
     elif config['dataset'] == 'BigEarthNet-Small':
-        config['datatxt_test'] = ' '
+        config['datatxt_test'] = 'data/ben_test.txt'
         config['nor_mean'] = 0.5995
         config['nor_std'] = 0.0005743462
         config['cate_num'] = 19
         
     elif config['dataset'] == 'OpenSARUrban':
-        config['datatxt_test'] = ' '
+        config['datatxt_test'] = 'data/osu_test.txt'
         config['nor_mean'] = 0.3159206957121415
         config['nor_std'] = 0.034312685984107194
         config['cate_num'] = 10                     
