@@ -69,6 +69,6 @@ Based on the preliminary findings in our previous work, we released this **SAR-H
 
 ### Requirements
 
-Please refer to [requirement](requirements) for installation.
+Please refer to [requirements](requirements) for installation.
 
 ## Contributors
