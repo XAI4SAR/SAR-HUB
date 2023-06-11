@@ -71,6 +71,6 @@ Based on the preliminary findings in our previous work, we released this **SAR-H
 
 Please refer to [requirements](requirements) for installation.
 
-If you need to conduct experiments of SAR scene classification, target recognition or SAR knowledge point, please download the required dependencies according to [here](requirements/scene classification, recognition and KP.txt)
+If you need to conduct experiments of SAR scene classification, target recognition or SAR knowledge point, please download the required dependencies according to [here](XAI4SAR/SAR-HUB/requirements/scene classification.txt)
 
 ## Contributors
