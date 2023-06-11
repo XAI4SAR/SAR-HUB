@@ -1,0 +1,54 @@
+# model settings
+_base_ = [
+    '_base_/datasets/mvoc.py',
+    '_base_/schedules/schedule_20k.py', 
+]
+norm_cfg = dict(type='BN', requires_grad=True)
+pretrained='pretrain_models/DenseNet121_TSX.pth'
+model = dict(
+    type='EncoderDecoder',
+    backbone=dict(
+        type='DenseNet',
+        init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
+    decode_head=dict(
+        type='ASPPHead',
+        in_channels=1024,
+        in_index=3,
+        channels=1024,
+        dilations=(1, 12, 24, 36),
+        dropout_ratio=0.1,
+        num_classes=2,
+        norm_cfg=norm_cfg,
+        align_corners=False,
+        loss_decode=dict(type='DiceLoss', use_sigmoid=False, loss_weight=1.0)),
+    auxiliary_head=dict(
+        type='FCNHead',
+        in_channels=1024,
+        in_index=2,
+        channels=512,
+        num_convs=1,
+        concat_input=False,
+        dropout_ratio=0.1,
+        num_classes=2,
+        norm_cfg=norm_cfg,
+        align_corners=False,
+        loss_decode=dict(
+            type='DiceLoss', use_sigmoid=False, loss_weight=0.4)),
+    # model training and testing settings
+    train_cfg=dict(),
+    test_cfg=dict(mode='whole'))
+runner = dict(type='IterBasedRunner', max_iters=20000)
+checkpoint_config = dict(by_epoch=False, interval=2000)
+evaluation = dict(interval=2000, metric='mIoU', pre_eval=True)
+log_config = dict(
+    interval=10,
+    hooks=[
+        dict(type='TextLoggerHook'),
+        # dict(type='TensorboardLoggerHook')
+    ])
+log_level = 'INFO'
+load_from = None
+resume_from = None
+workflow = [('train', 1)]
+
+work_dir = 'DenseNet121/test/SN6/'
