@@ -111,4 +111,4 @@ load_from = None
 resume_from = None
 workflow = [('train', 1)]
 
-work_dir = '/DATA/yhd/pycharm_YHD/transfer/transfer/detection/src/mmdetection-master/configs/SAR/ResNet50/test/BEN_hrsid'
+work_dir = 'ResNet50/test/hrsid'
