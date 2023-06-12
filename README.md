@@ -1,10 +1,10 @@
 # SAR-HUB
 
-## Introduction
+## 1. Introduction
 
 This project is for paper "SAR-HUB: Pre-training, Fine-tuning, and Explaining".
 
-### Features
+### 1.1 Features
 
 1.  **Pre-training:** Deep neural networks are trained with large-scale, open-source SAR scene image datasets.
     
@@ -17,7 +17,7 @@ This project is for paper "SAR-HUB: Pre-training, Fine-tuning, and Explaining".
 
 We release this repository with reproducibility (open-source code and datasets), generalization (sufficient experiments on different tasks), and explainability (qualitative and quantitative explanations).
 
-### Contributions
+### 1.2 Contributions
 
 -   An optimization method for large-scale SAR image classification is proposed to improve model performance.
     
@@ -26,7 +26,7 @@ We release this repository with reproducibility (open-source code and datasets),
 -   The Model-Hub offers a variety of SAR pre-trained models validated on various SAR benchmark datasets.
     
 
-## Previously on SAR-HUB
+## 2. Previously on SAR-HUB
 
 In our previous work, we discussed what, where, and how to transfer effectively in SAR image classification and proposed the SAR image pre-trained model (ResNet-18) based on large-scale SAR scene classification that achieved good performance in SAR target recognition downstream task. We tentatively analyzed the generality and specificity of features in different layers to demonstrate the advantage of SAR pre-trained models.
 
@@ -58,16 +58,16 @@ In our previous work, we discussed what, where, and how to transfer effectively 
 
 Based on the preliminary findings in our previous work, we released this **SAR-HUB** project as a continuous study with the following extensions:
 
--   To further improve the large-scale SAR scene classification performance and the feature generalization ability, we propose an optimization method with **dynamic range adapted augmentation (DRAA)** and **mini-batch class imbalanced** **loss function** **(mini-CBL)**.
+-   To further improve the large-scale SAR scene classification performance and the feature generalization ability, we propose an optimization method with **dynamic range adapted Enhancement (DRAE)** and **mini-batch class imbalanced** **loss function** **(mini-CBL)**.
     
--   In pre-training, **7** popular CNN and Transformer based architectures and **3** different large-scale SAR scene image datasets are explored, collected in Model-Hub. In fine-tuning, **7** different SAR downstream tasks are evaluated.
+-   In pre-training, **seven** popular CNN and Transformer based architectures and **three** different large-scale SAR scene image datasets are explored, collected in Model-Hub. In fine-tuning, **seven** different SAR downstream tasks are evaluated.
     
--   We propose **SAR** **knowledge point (SAR-KP)** concept, together with CAM based methods, to explain why the SAR pre-trained models outperform ImageNet and optical remote sensing image pre-trained models in transfer learning.
+-   We propose **SAR** **knowledge point (SAR-KP)**, together with CAM based methods, to explain why the SAR pre-trained models outperform ImageNet and optical remote sensing image pre-trained models in transfer learning.
     
 
-## Getting Started
+## 3. Getting Started
 
-### Requirements
+### 3.1 Requirements
 
 Please refer to [requirements](requirements) for installation.
 
@@ -75,19 +75,9 @@ If you need to conduct experiments of SAR scene classification, target recogniti
 
 If you need to conduct experiments of SAR object detection or sementic segmentation, please refer to [object_detection.txt](requirements/object_detection.txt) and [sementic_segmentation.txt](requirements/sementic_segmentation.txt) respectively. 
 
-### Pre-training And Fine-tuning
+### 3.2 Pre-training
 
-#### **Scene Classification**
-
-* Data Preparation
-
-  Please download BigEarthNet-S1.0 datasets and OpenSARUrban datasets first from:
-
-  BigEarthNet-S1.0: https://bigearth.net/
-
-  OpenSARUrban: https://pan.baidu.com/s/1D2TzmUWePYHWtNhuHL7KdQ
-
-  After that, please normalize the datasets to 0-1 and store them in *npy* format. The file directory tree is as below:
+The file directory tree is as below:
 
   ```
   ├── dataset
@@ -114,33 +104,57 @@ If you need to conduct experiments of SAR object detection or sementic segmentat
   │   ├── ...
   ```
 
-  Of course, if you want to store data in your own style, then please change the *137th* and *93rd* lines of [datasets.py](SAR_scene_classification/src/dataset.py) according to the data path you store.
+#### 3.2.1 Data Preparation
 
-* Train and Test
+  BigEarthNet-S1.0: https://bigearth.net/
 
-  We recommend you to use GPUs but not a CPU to train and test, because it will greatly shorten the time.
+  OpenSARUrban: https://pan.baidu.com/s/1D2TzmUWePYHWtNhuHL7KdQ
 
-  Before starting training, please change the parameters in *main.py*, including the dataset, model, path and so on.
+  Normalize the datasets to 0-1 and store them in dataset/xxx/xxx-npy folder with *npy* format. 
 
-  Then you can use the command below to start a training procedure:
+<!--   Of course, if you want to store data in your own style, then please change the *137th* and *93rd* lines of [datasets.py](SAR_scene_classification/src/dataset.py) according to the data path you store. -->
+
+#### 3.2.2 Initialization
+
+
+
+#### 3.2.3 Train with DRAE and mini-CBL
+
+<!--   We recommend you to use GPUs but not a CPU to train and test, because it will greatly shorten the time. -->
+
+<!--   Before starting training, please change the parameters in *main.py*, including the dataset, model, path and so on. -->
+
+  The usage of DRAE with Reinhard-Devlin:
+  ```bash
+  --xxx xx
+  ```
+  The usage of mini-CBL with Focal Loss: 
+  ```bash
+  --loss_type Mini_CB_FL
+  ```
+  
+  An example of training OpenSARUrban with DRAE and mini-CBL using Multiple GPUs:
+  
   ```bash
   CUDA_VISIBLE_DEVICES=0,1,2,3 nohup python -m torch.distributed.launch --nproc_per_node=4 main.py > result.txt
   ```
-  If you want to use a single GPU, set *CUDA_VISIBLE_DEVICES* to the serial number of a single GPU and change *--nproc_per_node* to 1. For example:
+  
+  If you want to use a single GPU, set *CUDA_VISIBLE_DEVICES* to the serial number of a single GPU and change *--nproc_per_node* to 1:
+  
   ```bash
   CUDA_VISIBLE_DEVICES=0 nohup python -m torch.distributed.launch --nproc_per_node=1 main.py > result.txt
   ```
-  The results will be written to *result.txt* when using *nohup*. If you want to observe the training process on the terminal, delete *nohup* and *> result.txt*.
+<!--   The results will be written to *result.txt* when using *nohup*. If you want to observe the training process on the terminal, delete *nohup* and *> result.txt*. -->
 
-  After training, please change the parameters in *test.py* and use the command below to start test:
+#### 3.2.3 Test
+
+<!-- 同train.py，把参数作为外部输入 -->
 
   ```bash
-  python test.py
+  python test.py --xxx xxx
   ```
 
-  The results will be given on the terminal.
-
-  **The explanation of significant code file or folder is as follows**:
+<!--   **The explanation of significant code file or folder is as follows**:
 
   - **main.py**: Code for significant parameters. The main parameters are needed checking in this file. You need to start traning from this file.
 
@@ -158,22 +172,26 @@ If you need to conduct experiments of SAR object detection or sementic segmentat
 
   - **model_prepare.py**: Configuration code for loading models.
 
-  - **models**: Base configuration folder for CNN and ViT structure code. In most cases, there is no need to change it.
+  - **models**: Base configuration folder for CNN and ViT structure code. In most cases, there is no need to change it. -->
   
+### 3.3 Fine-tuning
 
-#### **Target Recognition**
+#### 3.3.1 Model Hub
 
-* Data Preparation
+SAR pre-trained models are available as follows:
 
-  We use MSTAR dataset, OpenSARShip dataset and FuSARShip dataset for SAR target recognition tasks. Therefore you may need to download their firstly.
+**We provide 3 models under each architecture, which are trained on TerraSAR-X (TSX) dataset, BigEarthNet (BEN) dataset and OpenSARUrban (OSU) dataset respectively.**
 
-  OpenSARShip: https://opensar.sjtu.edu.cn/
+|Backbone | Input size | Pretrained model|Backbone | Input size | Pretrained model|
+|-------- | ---------- | ----------|-------- | ---------- | ----------|
+ResNet18 | 128×128 |  [baidu](https://pan.baidu.com/s/1nh-FTrVz7-LBev-fGpunPQ) (Extraction code:hy18)|MobileNetV3| 128×128 |  [baidu](https://pan.baidu.com/s/13Nvo8DCXszqlKgpzXWNR7A) (Extraction code:hymb)|
+ResNet50 | 128×128 | [baidu](https://pan.baidu.com/s/1BXVR014Aecc9J4wZlOu1ew) (Extraction code:hy50)|DenseNet121 | 128×128 |  [baidu](https://pan.baidu.com/s/19pmJFoT35Wz2jemkuf6KPA) (Extraction code:hyde)|
+ResNet101 | 128×128  | [baidu](https://pan.baidu.com/s/1OIQ5MFsmTWxiH-Smlb441g) (Extraction code:hy01)|Swin-T | 128×128 |  [baidu](https://pan.baidu.com/s/17hEe6251Yo63LKLI3PpTvg) (Extraction code:hyst)|
+SENet50  | 128×128  | [baidu](https://pan.baidu.com/s/1rACPLIHdCxruFTVUhyipoQ) (Extraction code:hyse)|Swin-B | 128×128 |  [baidu](https://pan.baidu.com/s/1NlJfC4SnGFCotfwyl-za6Q) (Extraction code:hysb)|
 
-  FuSARShip: https://radars.ac.cn/web/data/getData?dataType=FUSAR
+#### 3.3.2 SAR Target Recognition
 
-  MSTAR：https://www.sdms.afrl.af.mil/index.php?collection=mstar 
-
-  The file directory tree is as below:
+The file directory tree is as below:
 
   ```
   ├── data
@@ -197,17 +215,29 @@ If you need to conduct experiments of SAR object detection or sementic segmentat
   │   ├── ...
   ```
 
-  * Train
 
-  Before starting training, please change the parameters in *main.py*, including model type and so on.
+**Data Preparation**
 
-  Then you can use the command below to start a training procedure:
+  FuSARShip: https://radars.ac.cn/web/data/getData?dataType=FUSAR
+
+  MSTAR：https://www.sdms.afrl.af.mil/index.php?collection=mstar 
+
+  OpenSARShip: https://opensar.sjtu.edu.cn/
+  
+  The train/test splitting settings used in our experiments can be found in data/FSS, data/MSTAR, and data/OSS
+
+**Usage of SAR Pre-trained Models**
+
+<!--   Before starting training, please change the parameters in *main.py*, including model type and so on.
+
+  Then you can use the command below to start a training procedure: -->
+  
   ```bash
   CUDA_VISIBLE_DEVICES=0 nohup python train.py > SENet_FuSARship_TSX.txt
   ```
   
-  The results will be written to *SENet_FuSARship_TSX.txt* when using *nohup*. If you want to observe the training process on the terminal, delete *nohup* and *> SENet_FuSARship_TSX.txt*.
-
+<!--   这些细节没必要在readme里写。The results will be written to *SENet_FuSARship_TSX.txt* when using *nohup*. If you want to observe the training process on the terminal, delete *nohup* and *> SENet_FuSARship_TSX.txt*. -->
+<!-- 
   **The explanation of significant code file or folder is as follows**:
 
   - **main.py**: Code for training and validation in each epoch. The main parameters are needed checking in this file. You need to start traning from this file.
@@ -219,21 +249,23 @@ If you need to conduct experiments of SAR object detection or sementic segmentat
   - **transform.py** and **data_transform.py**: Code for several basic transformation used in the experiments.
 
 
-  - **models**: Base configuration folder for CNN and ViT structure code. In most cases, there is no need to change it.
+  - **models**: Base configuration folder for CNN and ViT structure code. In most cases, there is no need to change it. -->
 
-#### **Object Detection**
+#### 3.3.3 Object Detection
 
 The object detection are based on MMDetection framework,combining Feature Pyramid Networks (FPN) and Fully Convolutional One Stage (FCOS), and we have not changed any of it. Therefore, we only give the *SAR config* and *\_\_base\_\_* and introduce how to use them.
 
-* Data Preparation
-
-  You need to download the SSDD dataset, HRSID dataset and LS-SSDDv1.0 dataset for this task. 
+**Data Preparation**
 
   SSDD: https://drive.google.com/file/d/1grDw3zbGjQKYPjOxv9-h4WSUctoUvu1O/view
 
   HRSID: https://aistudio.baidu.com/aistudio/datasetdetail/54512
   
   LS-SSDDv1.0: https://radars.ac.cn/web/data/getData?newsColumnId=6b535674-3ce6-43cc-a725-9723d9c7492c
+
+  The train/test splitting follow the official settings.
+
+**Usage of SAR Pre-trained Models**
 
   The file directory tree in MMDetection is as below:
 
@@ -269,9 +301,9 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
   
   The results will be written to the log save path you set in each config file.
 
-#### **Sementic Segmentation**
+#### 3.3.4 Sementic Segmentation
 
-We adopt DeepLabv3 under MMSegmentation framework during the experiments. Similar to the object detection task, we give the *SAR config* and *\_\_base\_\_* and introduce how to use them.
+<!-- 同上修改 We adopt DeepLabv3 under MMSegmentation framework during the experiments. Similar to the object detection task, we give the *SAR config* and *\_\_base\_\_* and introduce how to use them.
 
 * Data Preparation
 
@@ -307,19 +339,21 @@ We adopt DeepLabv3 under MMSegmentation framework during the experiments. Simila
   CUDA_VISIBLE_DEVICES=3 python tools/train.py configs/SAR/SAR config/deeplabv3_d121_20k_SN6.py
   ```
   
-  The results will be written to the log save path you set in each config file.
+  The results will be written to the log save path you set in each config file. -->
 
-### Explaining
+### 3.4 Explaining
 
-#### **Data preparation**
+(1) U-Net explainer optimization:
 
-We use SAR KP on the MSTAR dataset. So you need to download it firstly:
+```bash
+xxx
+```
 
-MSTAR：https://www.sdms.afrl.af.mil/index.php?collection=mstar 
+(2) xxx
 
 The code are proposed [here](SAR_KP).
 
-#### **Train and Get_KP**
+<!-- #### **Train and Get_KP**
 
 The ResNet-50 model used in KP is firstly trained on the MSTAR dataset. Then we connect it with U-Net to explain it. Before training, you need to change the parameters in the *train.py*, including the save path and the loaded model.
 
@@ -333,7 +367,8 @@ Notably, we don't use validation dataset during train, so you may need to use *t
 After training, you need to run the *test_Get_KP.py* to get KP. The visualization and the values of disturbance will be saved in *jpg* and *npy* format respectively.
 
 If you want to get more intuitive visualization results, you can use *KP_visual.py* to colored the disturbance.
-
+ -->
+<!-- 
 #### **Explanation of significant code file or folder**
 
 - **train.py**: Code for training. The main parameters are needed checking in this file. You need to start traning from this file. In most cases, there is no need to change it.
@@ -346,20 +381,7 @@ If you want to get more intuitive visualization results, you can use *KP_visual.
 
 - **unet.py** and **resnet.py**: Code for U-Net and ResNet structure.
 
-- **KP_visual.py**: Code for get the visualization of KP. You can choose where the visual results saved in this file.
-
-## Model Zoo
-
-The trained models from the upstream tasks are available. The download address is as follows:
-
-**We provide 3 models under each architecture, which are trained on TerraSAR-X (TSX) dataset, BigEarthNet (BEN) dataset and OpenSARUrban (OSU) dataset respectively.**
-
-|Backbone | Input size | Pretrained model|Backbone | Input size | Pretrained model|
-|-------- | ---------- | ----------|-------- | ---------- | ----------|
-ResNet18 | 128×128 |  [baidu](https://pan.baidu.com/s/1nh-FTrVz7-LBev-fGpunPQ) (Extraction code:hy18)|MobileNetV3| 128×128 |  [baidu](https://pan.baidu.com/s/13Nvo8DCXszqlKgpzXWNR7A) (Extraction code:hymb)|
-ResNet50 | 128×128 | [baidu](https://pan.baidu.com/s/1BXVR014Aecc9J4wZlOu1ew) (Extraction code:hy50)|DenseNet121 | 128×128 |  [baidu](https://pan.baidu.com/s/19pmJFoT35Wz2jemkuf6KPA) (Extraction code:hyde)|
-ResNet101 | 128×128  | [baidu](https://pan.baidu.com/s/1OIQ5MFsmTWxiH-Smlb441g) (Extraction code:hy01)|Swin-T | 128×128 |  [baidu](https://pan.baidu.com/s/17hEe6251Yo63LKLI3PpTvg) (Extraction code:hyst)|
-SENet50  | 128×128  | [baidu](https://pan.baidu.com/s/1rACPLIHdCxruFTVUhyipoQ) (Extraction code:hyse)|Swin-B | 128×128 |  [baidu](https://pan.baidu.com/s/1NlJfC4SnGFCotfwyl-za6Q) (Extraction code:hysb)|
+- **KP_visual.py**: Code for get the visualization of KP. You can choose where the visual results saved in this file. -->
 
 
 ## Contributors
