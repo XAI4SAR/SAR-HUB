@@ -84,7 +84,7 @@ BigEarthNet-S1.0: https://bigearth.net/
 
 OpenSARUrban: https://pan.baidu.com/s/1D2TzmUWePYHWtNhuHL7KdQ
 
-After that, please normalize the datasets to 0-1 and store it in *npy* format. The file directory tree is as below:
+After that, please normalize the datasets to 0-1 and store them in *npy* format. The file directory tree is as below:
 
 ```
 ├── datasets
