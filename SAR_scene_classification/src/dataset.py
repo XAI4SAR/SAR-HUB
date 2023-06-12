@@ -90,7 +90,7 @@ class BEN_Dataset(Dataset):
             :return:
         """
 
-        patch_path = '/DATA/yhd/pycharm_YHD/BEN/BEN-S1-npy/' + self.tsx_path_label[idx][0]
+        patch_path = 'BigEarthNet/BEN-S1-npy/' + self.tsx_path_label[idx][0]
         image = read_dataset.read_npy(patch_path)
         # print(self.tsx_path_label)
         lab = np.zeros((19),dtype = 'float32')    #! 此处为one-hot
@@ -134,7 +134,7 @@ class OSU_Dataset(Dataset):
             :return:
         """
 
-        patch_path = '/home/hzl/STAT2/YHD/pycharm_YHD/OpenSARurban/OSU-npy/' + self.osu_path_label[idx][0]
+        patch_path = 'OpenSARurban/OSU-npy/' + self.osu_path_label[idx][0]
         image = read_dataset.read_npy(patch_path)
         label = self.osu_path_label[idx][1]
         

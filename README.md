@@ -71,6 +71,34 @@ Based on the preliminary findings in our previous work, we released this **SAR-H
 
 Please refer to [requirements](requirements) for installation.
 
-If you need to conduct experiments of SAR scene classification, target recognition or SAR knowledge point, please download the required dependencies according to [here](XAI4SAR/SAR-HUB/requirements/scene classification.txt)
+If you need to conduct experiments of SAR scene classification, target recognition or SAR knowledge point, please download the required dependencies according to [here](XAI4SAR/SAR-HUB/requirements/scene_classification.txt).
+
+If you need to conduct experiments of SAR object detection or sementic segmentation, please refer to [object_detection.txt](requirements/object_detection.txt) and [sementic_segmentation.txt](requirements/sementic_segmentation.txt) respectively. 
+
+### Data Prepare
+
+#### **Scene Classification**
+Please download BigEarthNet-S1.0 datasets and OpenSARUrban datasets first from:
+
+BigEarthNet-S1.0: https://bigearth.net/
+
+OpenSARUrban: https://pan.baidu.com/s/1D2TzmUWePYHWtNhuHL7KdQ
+
+After that, please normalize the datasets to 0-1 and store it in *npy* format. The file directory tree is as below:
+
+```
+├── datasets
+│   ├── BigEarthNet
+│   │   ├── BEN-S1-npy
+│   ├── OpenSARUrban
+│   │   ├── OSU-npy
+```
+
+Of course, if you want to store data in your own style, then please change the *137th* and *93rd* lines of [datasets.py](SAR_scene_classification/src/dataset.py) according to the data path you store.
+
+#### **Target Recognition**
+
+
+
 
 ## Contributors

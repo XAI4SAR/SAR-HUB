@@ -1,1 +1,0 @@
-If you need to conduct experiments of SAR scene classification, target recognition or SAR knowledge point, please download the required dependencies according to [here](scene classification.txt)
