@@ -363,7 +363,8 @@ If you want to get more intuitive visualization results, you can use *KP_visual.
 ## Model Zoo
 
 The trained models from the upstream tasks are available. The download address is as follows:
-We provide 3 models under each architecture, which are trained on TerraSAR-X (TSX) dataset, BigEarthNet (BEN) dataset and OpenSARUrban (OSU) dataset respectively.
+
+**We provide 3 models under each architecture, which are trained on TerraSAR-X (TSX) dataset, BigEarthNet (BEN) dataset and OpenSARUrban (OSU) dataset respectively.**
 
 |Backbone | Input size | Pretrained model|Backbone | Input size | Pretrained model|
 |-------- | ---------- | ----------|-------- | ---------- | ----------|
