@@ -62,13 +62,10 @@ def Mag_Train(Model_type, tensorboard_save,model_save_path):
     loss = []
     writer = SummaryWriter(tensorboard_save)
     for epoch in range(epochs):
-        # train for one epoch
         train_loss,entropy,feature_diff,noise = train(train_dataloader, resnet_model,unet, optimizer,lr_s,
              epoch,train_batch,alpha,normalize)
         loss.append(train_loss.item())
-        # if train_loss<=np.min(loss):
         if (epoch+1) % 50 == 0:
-            # print('Best Epoch:{},Loss:{}'.format(epoch+1,train_loss.item()))
             torch.save(unet.state_dict(), save_model_path+str(epoch+1)+'.pth')
             n = torch.mean(noise,dim=0).cpu().detach().numpy()
             n = ((n-n.min())/(n.max()-n.min()))*255
@@ -81,8 +78,6 @@ def Mag_Train(Model_type, tensorboard_save,model_save_path):
             n = ((n-n.min())/(n.max()-n.min()))*255
             n = transform.resize(n, (128, 128))
             cv2.imwrite(save_model_path+str(epoch)+'best_deltaX.jpg',n)
-        # evaluate on validation set
-        # if epoch>=20:
         print(' Epoch: {},Train loss: {}'.format(epoch+1,train_loss.item()))
         print('Feature Diff:{}, Sum of Entropy: {}'.format(feature_diff.item(),entropy.item()))
 
@@ -98,7 +93,6 @@ def kownledge_point_loss(input_feature,noise_feature,noise,batch,alpha):
     return loss,entropy,feature_diff
 def train(train_dataloader, resnet,unet, optimizer,scheduler,
              epoch,batch,alpha,normalize):
-    # os.environ['CUDA_VISIBLE_DEVICES']='1'
     F = nn.CrossEntropyLoss()
     unet.train()
     resnet.train()
@@ -116,7 +110,6 @@ def train(train_dataloader, resnet,unet, optimizer,scheduler,
         optimizer.step()
         scheduler.step()
         
-    # print("epoch:{}, loss:{}".format(epoch,loss.item()))
     return loss,entropy,feature_diff,noise
 
 if __name__ == '__main__':

@@ -111,7 +111,6 @@ def get_dataloader(config):
                                 data_type='npy',
                                 transform=data_transforms['val']
                                 )
-    #! 多GPU并行训练设置sampler，保证每个GPU进入的数据不一样，此时dataloader对应的shuffle改为False
     else:
         raise NameError('Unknown Dataset Type')
     train_sampler = torch.utils.data.distributed.DistributedSampler(dataset_train, shuffle = True)

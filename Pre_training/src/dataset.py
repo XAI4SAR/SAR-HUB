@@ -35,15 +35,6 @@ class TSX_Dataset(Dataset):
         """
 
         if self.data_type[0:3] == 'npy':
-            # start = datetime.datetime.now()
-            # patch_path = self.tsx_path_label[idx][0]
-            # image = read_dataset.read_npy_online(patch=patch_path,txt_file=self.txt_file,dict=self.dict_1737)
-            # end = datetime.datetime.now()
-            # print('Running time: %s Seconds'%(end-start))
-            # if "train" in self.txt_file.split('/')[-1]:
-            # if 'train' in self.txt_file:
-            #     patch_path = '/home/hzl/STAT/pycharm_YHD/TSX_exp/TSXdatasetOctavian/TSXdataset_npy_big/' + self.tsx_path_label[idx][0] + '.npy'
-            # else:
             patch_path = '/DATA/yhd/pycharm_YHD/TSX_exp/TSXdatasetOctavian/TSXdataset_npy_new/' + self.tsx_path_label[idx][0] + '.npy'
             image = read_dataset.read_npy(patch_path)
         elif self.data_type == 'tif':
@@ -59,7 +50,6 @@ class TSX_Dataset(Dataset):
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
-            # sample['image'] = transforms.TrivialAugmentWide(sample['image'])
         return sample
 
 class BEN_Dataset(Dataset):
@@ -93,7 +83,7 @@ class BEN_Dataset(Dataset):
         patch_path = 'BigEarthNet/BEN-S1-npy/' + self.tsx_path_label[idx][0]
         image = read_dataset.read_npy(patch_path)
         # print(self.tsx_path_label)
-        lab = np.zeros((19),dtype = 'float32')    #! 此处为one-hot
+        lab = np.zeros((19),dtype = 'float32')    #! one hot
         label = self.tsx_path_label[idx][1]
         for i in label:
             lab[int(i)] = 1
@@ -102,7 +92,6 @@ class BEN_Dataset(Dataset):
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
-            # sample['image'] = transforms.TrivialAugmentWide(sample['image'])
         return sample
     
 class OSU_Dataset(Dataset):
@@ -138,12 +127,10 @@ class OSU_Dataset(Dataset):
         image = read_dataset.read_npy(patch_path)
         label = self.osu_path_label[idx][1]
         
-        # label = torch.tensor(label)
-        # print(label)
+
         sample = {'image' : image, 'label' : label, 'path': self.osu_path_label[idx][0],'index':idx}
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
-            # sample['image'] = transforms.TrivialAugmentWide(sample['image'])
         return sample
 

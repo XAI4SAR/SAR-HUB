@@ -86,12 +86,6 @@ class Bottleneck(nn.Module):
         out = self.relu(out)
 
         return out
-
-#* 定义Flatten层，降维，多维压至一维
-class Flatten(nn.Module):
-    def forward(self,input):
-        return input.view(input.size(0),-1)
-#* DOWN!
 class ResNet(nn.Module):
 
     def __init__(self, block, layers, num_classes=7):
@@ -108,11 +102,6 @@ class ResNet(nn.Module):
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
         self.avgpool = nn.AvgPool2d(4, stride=1) # for input of 128*128
         self.fc = nn.Linear(512 * block.expansion, num_classes)
-        
-        # self.fc1 = nn.Linear(512 * block.expansion * 7 * 7, 512)
-        # self.bn2 = nn.BatchNorm1d(512 * block.expansion, eps=2e-5, affine=False)
-        # self.drop = nn.Dropout(p=0.5)
-        # self.bn3 = nn.BatchNorm1d(512, eps=2e-5)
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')

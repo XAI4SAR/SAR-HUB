@@ -9,122 +9,6 @@ from typing import Any, Tuple
 import torch.nn.functional as F
 from torch import Tensor
 
-class AlexNet_TSX(nn.Module):
-    def __init__(self, num_class=7):
-        super(AlexNet_TSX, self).__init__()
-        # input image size: 160```
-        self.features = nn.Sequential(
-            nn.Conv2d(1, 96, (11, 11), (4, 4)),
-            nn.BatchNorm2d(96),
-            nn.ReLU(),
-            # nn.LeakyReLU(),
-            nn.MaxPool2d((3, 3), (2, 2), (0, 0), ceil_mode=True),
-            nn.Conv2d(96, 256, (5, 5), (1, 1), (2, 2), 1, 2),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            # nn.LeakyReLU(),
-            nn.MaxPool2d((3, 3), (2, 2), (0, 0), ceil_mode=True),
-            nn.Conv2d(256, 384, (3, 3), (1, 1), (1, 1)),
-            nn.BatchNorm2d(384),
-            nn.ReLU(),
-            # nn.LeakyReLU(),
-            nn.Conv2d(384, 384, (3, 3), (1, 1), (1, 1), 1, 2),
-            nn.BatchNorm2d(384),
-            nn.ReLU(),
-            # nn.LeakyReLU(),
-            nn.Conv2d(384, 256, (3, 3), (1, 1), (1, 1), 1, 2),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            # nn.LeakyReLU(),
-            nn.MaxPool2d((3, 3), (2, 2), (0, 0), ceil_mode=True),
-        )
-        self.classifier = nn.Sequential(
-            # nn.Linear(256*3*3, 128),
-            # nn.LeakyReLU(),
-            # nn.Dropout(0.5),
-            # nn.Linear(256, 256),
-            # nn.LeakyReLU(),
-            # nn.Dropout(0.7),
-            # nn.Linear(128, num_class)
-            nn.Linear(256*3*3, num_class) # 256*3*3 is for input of 128*128, to be modified
-        )
-        self._initialize_weights()
-        self.layer_dict = {'conv1': 'features.0', 'conv2': 'features.4', 'conv3': 'features.8', 'conv4': 'features.11',
-                           'conv5': 'features.14', 'maxpool5': 'features.17', 'fc1': 'classifier.0'
-            # , 'fc2': 'classifier.2'#, 'fc3': 'classifier.4'
-        }
-
-    def forward(self, x):
-        x = self.features(x)
-        x = x.view(x.size(0), -1)
-        x = self.classifier(x)
-
-        return x
-
-    def _initialize_weights(self):
-        """
-            use He's initializer
-        """
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight, a=0, mode='fan_out')
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-            elif isinstance(m, nn.Linear):
-                init.kaiming_normal_(m.weight, a=0, mode='fan_out')
-            elif isinstance(m, nn.BatchNorm2d):
-                init.constant_(m.weight, 1)
-                init.constant_(m.bias, 0)
-
-
-class AlexNet_OpenSAR(nn.Module):
-    def __init__(self, num_class=3):
-        super(AlexNet_OpenSAR, self).__init__()
-        # input image size: 160```
-        self.features = nn.Sequential(
-            nn.Conv2d(1, 96, (11, 11), (4, 4)),
-            nn.ReLU(),
-            nn.MaxPool2d((3, 3), (2, 2), (0, 0), ceil_mode=True),
-            nn.Conv2d(96, 256, (5, 5), (1, 1), (2, 2), 1, 2),
-            nn.ReLU(),
-            nn.MaxPool2d((3, 3), (2, 2), (0, 0), ceil_mode=True),
-            nn.Conv2d(256, 384, (3, 3), (1, 1), (1, 1)),
-            nn.ReLU(),
-            nn.Conv2d(384, 384, (3, 3), (1, 1), (1, 1), 1, 2),
-            nn.ReLU(),
-            nn.Conv2d(384, 256, (3, 3), (1, 1), (1, 1), 1, 2),
-            nn.ReLU(),
-            nn.MaxPool2d((3, 3), (2, 2), (0, 0), ceil_mode=True),
-        )
-        self.classifier = nn.Sequential(
-            nn.Linear(256*2*2, num_class)
-        )
-        self._initialize_weights()
-        self.layer_dict = {'conv1': 'features.0', 'conv2': 'features.3', 'conv3': 'features.6', 'conv4': 'features.8',
-                           'conv5': 'features.10', 'maxpool5': 'features.12', 'fc1': 'classifier.0'}
-
-    def forward(self, x):
-        x = self.features(x)
-        x = x.view(x.size(0), -1)
-        x = self.classifier(x)
-
-        return x
-
-    def _initialize_weights(self):
-        """
-            use He's initializer
-        """
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight, a=0, mode='fan_out')
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-            elif isinstance(m, nn.Linear):
-                init.kaiming_normal_(m.weight, a=0, mode='fan_out')
-            elif isinstance(m, nn.BatchNorm2d):
-                init.constant_(m.weight, 1)
-                init.constant_(m.bias, 0)
-
 """ ResNet """
 def conv3x3(in_planes, out_planes, stride=1):
     """3x3 convolution with padding"""
@@ -202,11 +86,6 @@ class Bottleneck(nn.Module):
 
         return out
 
-#* 定义Flatten层，降维，多维压至一维
-class Flatten(nn.Module):
-    def forward(self,input):
-        return input.view(input.size(0),-1)
-#* DOWN!
 class ResNet(nn.Module):
 
     def __init__(self, block, layers, num_classes=7):
@@ -222,13 +101,8 @@ class ResNet(nn.Module):
         self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
         self.avgpool = nn.AvgPool2d(4, stride=1) # for input of 128*128
-        # self.avgpool = nn.AvgPool2d(7, stride=1) # for input of 224*224
         self.fc = nn.Linear(512 * block.expansion, num_classes)
         
-        # self.fc1 = nn.Linear(512 * block.expansion * 7 * 7, 512)
-        # self.bn2 = nn.BatchNorm1d(512 * block.expansion, eps=2e-5, affine=False)
-        # self.drop = nn.Dropout(p=0.5)
-        # self.bn3 = nn.BatchNorm1d(512, eps=2e-5)
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
@@ -237,25 +111,6 @@ class ResNet(nn.Module):
                 nn.init.constant_(m.bias, 0)
             elif isinstance(m, nn.Linear):
                 nn.init.kaiming_normal_(m.weight, mode='fan_out')
-
-    #! Data uncertainty in face recognition
-        # #* μ (features/mean)
-        # self.mu_head = nn.Sequential(
-        #     Flatten(),
-        #     nn.BatchNorm1d(512 * block.expansion, eps=2e-5, affine=False),
-        #     nn.Dropout(p=0.1),
-        #     # Flatten(),
-        #     nn.Linear(512 * block.expansion, 512),
-        #     nn.BatchNorm1d(512, eps=2e-5))
-        # #* log var (uncertainty/var)
-        # self.logvar_head = nn.Sequential(
-        #     Flatten(),
-        #     nn.BatchNorm1d(512 * block.expansion, eps=2e-5, affine=False),
-        #     nn.Dropout(p=0.1),
-        #     # Flatten(),
-        #     nn.Linear(512 * block.expansion, 512),
-        #     nn.BatchNorm1d(512, eps=2e-5))
-    #! Data uncertainty DOWN!
     def _make_layer(self, block, planes, blocks, stride=1):
         downsample = None
         if stride != 1 or self.inplanes != planes * block.expansion:
@@ -272,12 +127,6 @@ class ResNet(nn.Module):
             layers.append(block(self.inplanes, planes))
 
         return nn.Sequential(*layers)
-#! 换权重，w换成s，s=mu+epsilon*std
-    def _reparameterize(self,mu,logvar):
-        std = torch.exp(logvar).sqrt()
-        epsilon = torch.randn_like(std)
-        return mu+epsilon*std
-#! DOWN！
     def forward(self, x):
         x = self.conv1(x)
         x = self.bn1(x)
@@ -289,188 +138,32 @@ class ResNet(nn.Module):
         x = self.layer3(x)
         x = self.layer4(x)
         x = self.avgpool(x)
-    #* 换权重X为新权重s
-        # mu = self.mu_head(x)
-        # logvar = self.logvar_head(x)
-        # x = self._reparameterize(mu, logvar)
-    #* DOWN!
-        # x = x.view(x.size(0), -1)
-        # x = self.avgpool(x)
         x = torch.flatten(x, 1)
-        # print(x.size())
         x = self.fc(x) #? outputs
-
-        # return x, torch.sum(torch.abs(feats), 1).reshape(-1, 1), mu, logvar
         return x
-class ResNet_uncertainty(nn.Module):
-
-    def __init__(self, block, layers, num_classes=7):
-        self.inplanes = 64
-        super(ResNet_uncertainty, self).__init__()
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
-                               bias=False)
-        self.bn1 = nn.BatchNorm2d(64, momentum=0.5)
-        # self.relu = nn.ReLU(inplace=True)
-        self.relu = nn.PReLU()
-        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.layer1 = self._make_layer(block, 64, layers[0])
-        self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
-        self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
-        self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
-        self.avgpool = nn.AvgPool2d(4, stride=1) # for input of 128*128
-        self.cls_layer = nn.Linear(512 * block.expansion, num_classes)
-        # self.fc1 = nn.Linear(512 * block.expansion * 7 * 7, 512)
-        # self.bn2 = nn.BatchNorm1d(512 * block.expansion, eps=2e-5, affine=False)
-        # self.drop = nn.Dropout(p=0.5)
-        # self.bn3 = nn.BatchNorm1d(512, eps=2e-5)
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-            elif isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
-            elif isinstance(m, nn.Linear):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out')
-
-        ################! uncertainty estimation ##################### 
-        self.to_vector = nn.Sequential(
-            nn.Linear(512*8*8,512),
-            nn.ReLU(),
-            nn.Dropout(),
-        )
-        self.emd = nn.Sequential(
-            nn.Linear(512,512),
-            nn.ReLU(),
-        )
-        self.var = nn.Sequential(
-            nn.Linear(512,512),
-            nn.BatchNorm1d(512, eps=0.001, affine=False),
-        )
-        self.final = nn.Linear(512,num_classes)
-        self.drop = nn.Dropout()
-        ################! uncertainty estimation #####################
-    def _make_layer(self, block, planes, blocks, stride=1):
-        downsample = None
-        if stride != 1 or self.inplanes != planes * block.expansion:
-            downsample = nn.Sequential(
-                nn.Conv2d(self.inplanes, planes * block.expansion,
-                          kernel_size=1, stride=stride, bias=False),
-                nn.BatchNorm2d(planes * block.expansion, momentum=0.5),
-            )
-
-        layers = []
-        layers.append(block(self.inplanes, planes, stride, downsample))
-        self.inplanes = planes * block.expansion
-        for i in range(1, blocks):
-            layers.append(block(self.inplanes, planes))
-
-        return nn.Sequential(*layers)
-
-    def uncertainty_quantification(self,vector_sigma): #100*512
-        n = vector_sigma.shape[-1]
-        vector_sigma = torch.reciprocal(torch.exp(vector_sigma))
-        data_uncertainty = n / torch.sum(vector_sigma,dim=1,keepdim=True)
-        return data_uncertainty
-    def forward(self, x, training = True):
-        ###? backbone ####
-        x = self.conv1(x)
-        x = self.bn1(x)
-        x = self.relu(x)
-        x = self.maxpool(x)
-
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x) # 512*256*8*8
-        x = self.layer4(x) # 512*512*4*4
-        ###? backbone down ###
-        ###! uncertainty estimation ###
-        vector = self.avgpool(x) # 512*512*1*1
-        vector = vector.view(vector.size(0), -1) # 512*512
-        vector_mu = self.emd(vector)    #* mean/feature 512*512
-        #! 此处的vector_var实际上是logvar
-        vector_var = self.var(vector)   #* var/uncertainty 512*512 
-        if training:
-            vector_sqrt_var = 0.5*torch.exp(vector_var)
-            rep_emb = vector_mu[None].expand(50, *vector_mu.shape) # 50*512*512 #* expand 复制50个
-            rep_sqrt_var = vector_sqrt_var[None].expand(50, *vector_var.shape) # 50*512*512 #* expand 复制50个
-            norm_v = torch.randn_like(rep_emb).cuda() # 50*512*512
-            sto_emb = rep_emb + rep_sqrt_var * norm_v # 50*512*512
-            # sto_emb = self.drop(sto_emb) # 50*512*512
-            logit = self.final(sto_emb) # 50*512*#!45
-        else:
-            logit = self.final(vector_mu)
-            rep_emb = 0
-           
-        # x = x.view(x.size(0), -1)
-        # x = self.avgpool(x)
-        # x = self.avgpool(x)
-        # feats = x.view(x.size(0), -1)
-        # x = self.cls_layer(feats) #? outputs
-        
-        # return x, torch.sum(torch.abs(feats), 1).reshape(-1, 1), mu, logvar
-        data_uncertainty = self.uncertainty_quantification(vector_var)
-        
-        return logit, data_uncertainty, rep_emb,vector_var
 def ResNet18():
-    model = ResNet(BasicBlock, [2,2,2,2], num_classes=1000)
-
-    return model
-
-def ResNet_TSX(tsx_num_class):
-    model = ResNet(BasicBlock, [1,1,1,1], num_classes=tsx_num_class)
-
-    return model
-
-def ResNet18_TSX(tsx_num_class):
     model = ResNet(BasicBlock, [2,2,2,2], num_classes=tsx_num_class)
-    return model
-
-def ResNet18_opti_rs(tsx_num_class):
-    model = ResNet(BasicBlock, [2,2,2,2], num_classes=tsx_num_class)
-    return model
-
-def ResNet18_TSX_Comp_CNN2_data_uncertainty_for_CNN_feature(tsx_num_class):
-    model = ResNet_uncertainty(BasicBlock, [2,2,2,2], num_classes=tsx_num_class)
     return model
 def ResNet50(tsx_num_classes):
-    model = ResNet(Bottleneck, [3, 4, 6, 3], num_classes=tsx_num_classes)
-    return model
-def ResNet50_opt(tsx_num_classes):
-    model = ResNet(Bottleneck, [3, 4, 6, 3], num_classes=tsx_num_classes)
-    return model
-def ResNet50_opt_aid(tsx_num_classes):
-    model = ResNet(Bottleneck, [3, 4, 6, 3], num_classes=tsx_num_classes)
-    return model
-def ResNet50_opt_nwpu(tsx_num_classes):
     model = ResNet(Bottleneck, [3, 4, 6, 3], num_classes=tsx_num_classes)
     return model
 def ResNet101(tsx_num_classes):
     model = ResNet(Bottleneck, [3, 4, 23, 3], num_classes=tsx_num_classes)
     return model
-def get_features_by_name(model, x, layer_name):
-    layer_dict = model.layer_dict
-    layer_num = layer_dict[layer_name]
-    for i, l in enumerate(model.features):
-        x = l(x)
-        if 'features.' + str(i) == layer_num:
-            break
-
-    return x.data[0]
 
 
 #! densenet
-# 定义densenet的最基本模块，包含BN1 + relu1 + conv1 + BN2 + relu2 + conv2 + dropout，注意这里是BN在最前面，一般别的模型都是conv在前
 class _DenseLayer(nn.Module):
     def __init__(
         self, num_input_features: int, growth_rate: int, bn_size: int, drop_rate: float, memory_efficient: bool = False
     ) -> None:
         super().__init__()
-        self.norm1: nn.BatchNorm2d                                    # 定义norm1这个字段并提前赋予数据类型
-        self.add_module("norm1", nn.BatchNorm2d(num_input_features))  # 对定义的norm1字段进行赋值
+        self.norm1: nn.BatchNorm2d                                    
+        self.add_module("norm1", nn.BatchNorm2d(num_input_features))  
         self.relu1: nn.ReLU
         self.add_module("relu1", nn.ReLU(inplace=True))
         self.conv1: nn.Conv2d
-        self.add_module(                                              # 第一个卷积模块输出通道数是bn_size * growth_rate
+        self.add_module(                                              
             "conv1", nn.Conv2d(num_input_features, bn_size * growth_rate, kernel_size=1, stride=1, bias=False)
         )
         self.norm2: nn.BatchNorm2d
@@ -478,25 +171,19 @@ class _DenseLayer(nn.Module):
         self.relu2: nn.ReLU
         self.add_module("relu2", nn.ReLU(inplace=True))
         self.conv2: nn.Conv2d
-        self.add_module(                                              # 第二个卷积模块输出通道数是growth_rate
+        self.add_module(                                              
             "conv2", nn.Conv2d(bn_size * growth_rate, growth_rate, kernel_size=3, stride=1, padding=1, bias=False)
         )
         self.drop_rate = float(drop_rate)
  
     def forward(self, input: Tensor) -> Tensor:
         prev_features = input
-        new_features0 = torch.cat(prev_features, 1)                   # 每一个最基本模块的输入通道是init_num + (n - 1) * growth_rate
-        new_features1 = self.conv1(self.relu1(self.norm1(new_features0)))  # 第一个卷积输出通道bn_size * growth_rate
-        new_features2 = self.conv2(self.relu2(self.norm2(new_features1)))  # 第二个卷积输出通道growth_rate
-        if self.drop_rate > 0:                                        # 每一个最基本模块的输出通道是growth_rate
-            new_features2 = F.dropout(new_features2, p=self.drop_rate, training=self.training)  # 当前使用时，没有启用这一层
+        new_features0 = torch.cat(prev_features, 1)                   
+        new_features1 = self.conv1(self.relu1(self.norm1(new_features0))) 
+        new_features2 = self.conv2(self.relu2(self.norm2(new_features1)))  
+        new_features2 = F.dropout(new_features2, p=self.drop_rate, training=self.training)  
         return new_features2
- 
-# 定义densenet的大模块，包含num_layers个最基本模块，这个num_layers个最基本模块遵循密集连接的原则
-# nn.ModuleDict可以以字典的形式向nn.ModuleDict中输入子模块，也可以以add_module()的形式向nn.ModuleDict中输入子模块
-# 但是nn.ModuleDict类似于nn.Module需要自己实现forward()函数，类似的模块还有nn.ModuleList以列表形式搭建模型
-# 所以说白了nn.Sequential，nn.Module，nn.ModuleList，nn.ModuleDict是搭建模型或模块的四种方式，是并行的关系，可以根据不同应用条件下使用
-# https://blog.csdn.net/weixin_42486623/article/details/122822580
+
 class _DenseBlock(nn.ModuleDict):
  
     def __init__(
@@ -512,11 +199,11 @@ class _DenseBlock(nn.ModuleDict):
             layer = _DenseLayer(
                 num_input_features + i * growth_rate, growth_rate=growth_rate, bn_size=bn_size, drop_rate=drop_rate
             )
-            self.add_module("denselayer%d" % (i + 1), layer)   # 以add_module()形式输入子模块
+            self.add_module("denselayer%d" % (i + 1), layer)   
  
     def forward(self, init_features: Tensor) -> Tensor:
         features = [init_features]
-        for name, layer in self.items():                       # 以items()形式访问子模块
+        for name, layer in self.items():                       
             new_features = layer(features)
             features.append(new_features)
         return torch.cat(features, 1)
@@ -529,7 +216,6 @@ class _Transition(nn.Sequential):
         self.add_module("conv", nn.Conv2d(num_input_features, num_output_features, kernel_size=1, stride=1, bias=False))
         self.add_module("pool", nn.AvgPool2d(kernel_size=2, stride=2))
  
-# 根据block_config参数配置列表搭建整个densenet模型
 class DenseNet(nn.Module):
  
     def __init__(
@@ -544,8 +230,8 @@ class DenseNet(nn.Module):
  
         super().__init__()
  
-        ### 搭建第一层，即stem层，包含conv + BN + relu + maxpool，以字典的形式向nn.Sequential中添加子模块
-        self.features = nn.Sequential(        # 用nn.Sequential搭建一个子模块，不需要重写forward()函数
+        
+        self.features = nn.Sequential(       
             OrderedDict(
                 [
                     ("conv0", nn.Conv2d(3, num_init_features, kernel_size=7, stride=2, padding=3, bias=False)),
@@ -555,8 +241,7 @@ class DenseNet(nn.Module):
                 ]
             )
         )
- 
-        ### 搭建bottleneck层，包含4个_DenseBlock大模块和4个_Transition大模块
+
         num_features = num_init_features
         for i, num_layers in enumerate(block_config):
             block = _DenseBlock(
@@ -574,10 +259,10 @@ class DenseNet(nn.Module):
                 num_features = num_features // 2  # _Transition模块不仅将空间尺寸减半还将通道尺寸减半
         self.features.add_module("norm5", nn.BatchNorm2d(num_features))
  
-        ### 搭建最后的分类层
+
         self.classifier = nn.Linear(num_features, num_classes)
  
-        # 参数初始化
+
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.kaiming_normal_(m.weight)
@@ -595,8 +280,6 @@ class DenseNet(nn.Module):
         out = self.classifier(out)
         return out
  
-##############################################################################################################################
-## 通过修改配置列表实现不同模型的定义
 def densenet121(target_num_classes,**kwargs: Any) -> DenseNet:
     return DenseNet(32, (6, 12, 24, 16), 64,num_classes=target_num_classes, **kwargs)
  
@@ -608,7 +291,7 @@ def densenet169(**kwargs: Any) -> DenseNet:
  
 def densenet201(**kwargs: Any) -> DenseNet:
     return DenseNet(32, (6, 12, 48, 32), 64, **kwargs)
-#!
+#! Dense
 
 #! Senet50
 class Block(nn.Module):

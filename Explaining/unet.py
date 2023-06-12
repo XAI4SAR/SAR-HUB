@@ -27,14 +27,6 @@ class Aleatoric_Uncertainty_Quantification1(nn.Module):
         self.channels = channels
         self.sample_time = sample_time
         self.ori_inputs = ori_inputs.cuda()
-        # self.emd = nn.Sequential(
-        #     nn.Conv2d(self.channels, self.channels, 3, padding=1),
-        #     nn.ReLU(True),
-        #     )
-        # self.up = up(scale_factor=8).cuda()
-        # self.need_freeze_conv= nn.Conv2d(in_channels=64, out_channels=3, kernel_size=1, stride=1, padding=0,bias=False)
-        # kernel_weight = torch.ones(3,64,1,1)
-        # self.need_freeze_conv.weight = nn.Parameter(kernel_weight)
         self.var = nn.Sequential(
             nn.Conv2d(self.channels, self.channels, 3, padding=1),
             nn.BatchNorm2d(self.channels, eps=0.001, affine=False),
@@ -49,9 +41,6 @@ class Aleatoric_Uncertainty_Quantification1(nn.Module):
         feature_sqrt_sigma = feature_sqrt_sigma.repeat(1,3,1,1)  # 200*3*16*16
         if self.training:
             sqrt_var = self.up(feature_sqrt_sigma)    #200*3*128*128
-            # piece = sqrt_var[0,0,:,:]                  # 128*128
-            # piece = piece.expand(feature_mu.shape[1], *piece.shape)      # 3*128*128
-            # sqrt_var = piece.expand(feature_mu.shape[0], *piece.shape)  #200*3*128*128
             rep_sqrt_var = sqrt_var[None].expand(self.sample_time, *sqrt_var.shape) # S*B*C*H*W S*200*3*128*128
             rep_emb = feature_mu[None].expand(self.sample_time, *feature_mu.shape)# S*200*3*128*128
 
@@ -92,15 +81,12 @@ class U_Net(nn.Module):
     def Aleatoric_Uncertainty_Quantification(self,inputs,ori_inputs,sample_time):
         feature_mu = ori_inputs.cuda() # 200*3*128*128
         feature_sqrt_var = torch.exp(self.var(inputs.cuda()) * 0.5).cuda() # 200*512*16*16
-        # sqrt_sigma = feature_sqrt_sigma[0,0]
+
         feature_sqrt_var = torch.mean(feature_sqrt_var,dim=1) #200*16*16
         feature_sqrt_sigma = feature_sqrt_var.unsqueeze(dim = 1) #200*1*16*16
         feature_sqrt_sigma = feature_sqrt_sigma.repeat(1,3,1,1)  # 200*3*16*16
-        # if self.training:
+
         sqrt_var = self.up(feature_sqrt_sigma)    #200*3*128*128
-        # piece = sqrt_var[0,0,:,:]                  # 128*128
-        # piece = piece.expand(feature_mu.shape[1], *piece.shape)      # 3*128*128
-        # sqrt_var = piece.expand(feature_mu.shape[0], *piece.shape)  #200*3*128*128
         rep_sqrt_var = sqrt_var[None].expand(sample_time, *sqrt_var.shape) # S*B*C*H*W S*200*3*128*128
         rep_emb = feature_mu[None].expand(sample_time, *feature_mu.shape)# S*200*3*128*128
 
@@ -108,9 +94,6 @@ class U_Net(nn.Module):
         sto_emb = rep_emb + rep_sqrt_var * norm_v               ### x'
         del norm_v
         return sto_emb,feature_sqrt_var
-        # else:
-            # return feature_mu
-        # return out
     def forward(self, x):
 
         # Encode

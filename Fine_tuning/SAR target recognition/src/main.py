@@ -24,14 +24,14 @@ def Model_prepare(Model_type,pretrain_path):
     if Model_type == 'ResNet18':
         model = network.ResNet18_opti_rs(tsx_num_class = 32)
         num_feature = model.fc.in_features
-        checkpoint = torch.load(pretrain_path)  # 加载模型文件，pt, pth 文件都可以；
+        checkpoint = torch.load(pretrain_path)  
         new_state_dict = checkpoint
         model.load_state_dict({k.replace('module.',''):v for k,v in new_state_dict.items()})
         model.fc = nn.Linear(num_feature, 10)
     elif Model_type == 'ResNet50':
         model = network.ResNet50_opt(tsx_num_classes = 32)
         num_feature = model.fc.in_features
-        checkpoint = torch.load(pretrain_path)  # 加载模型文件，pt, pth 文件都可以；
+        checkpoint = torch.load(pretrain_path) 
         new_state_dict = checkpoint
         model.load_state_dict({k.replace('module.',''):v for k,v in new_state_dict.items()})
         model.fc = nn.Linear(num_feature, 10)

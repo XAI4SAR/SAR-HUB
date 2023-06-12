@@ -1,11 +1,4 @@
-'''
-Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
-Date: 2023-03-27 21:37:07
-LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
-LastEditTime: 2023-04-09 10:25:08
-FilePath: /STAT2/YHD/pycharm_YHD/knowledge-point/src/KP_visual.py
-Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
-'''
+
 import cv2
 import numpy as np
 import os 
@@ -119,13 +112,13 @@ def KP_visual(type,img_path,b,noise_path,save_path):
     # HX_path = img_HX_path.replace('.jpg', '.npy')
     HX_path = os.path.join(noise_path,img_HX_path)
     save_path = save_path
-    ## opencv为BGR，若根据RGB色表找颜色，切记调换R和B通道的像素值
-    Target_KP_color = [71,99,255]               ## 目标区域KP颜色
-    Shadow_KP_color = [58,238,179]             ## 阴影区域非KP颜色
-    BackGround_KP_color = [250,206,135]         ## 背景区域KP颜色
-    Target_Not_KP_color = [211,211,211]         ## 目标区域非KP颜色
-    BackGround_Not_KP_color = [255,255,255]     ## 背景区域非KP颜色
-    Shadow_Not_KP_color = [238,238,224]             ## 阴影区域非KP颜色
+    ## RGB
+    Target_KP_color = [71,99,255]               
+    Shadow_KP_color = [58,238,179]             
+    BackGround_KP_color = [250,206,135]         
+    Target_Not_KP_color = [211,211,211]         
+    BackGround_Not_KP_color = [255,255,255]     
+    Shadow_Not_KP_color = [238,238,224]             
     bord_target = [62,124,255]
     bord_shadow = [220,220,220]
     back = [220,220,220]

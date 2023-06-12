@@ -1,12 +1,5 @@
-# --------------------------------------------------------
-# Swin Transformer
-# Copyright (c) 2021 Microsoft
-# Licensed under The MIT License [see LICENSE for details]
-# Written by Ze Liu
-# --------------------------------------------------------
 
 from .swin_transformer import SwinTransformer
-#from .swin_mlp import SwinMLP
 
 def build_model(mode,model_type):
     
@@ -15,7 +8,7 @@ def build_model(mode,model_type):
             model = SwinTransformer(img_size=128,
                                     patch_size=4, 
                                     in_chans=3,
-                                    num_classes=51, ## 51 from million AID
+                                    num_classes=51, 
                                     embed_dim=96,
                                     depths=[2, 2, 6, 2],
                                     num_heads=[3, 6, 12, 24],
@@ -32,7 +25,7 @@ def build_model(mode,model_type):
             model = SwinTransformer(img_size=128,
                                     patch_size=4, 
                                     in_chans=3,
-                                    num_classes=45, ## 51 from million AID
+                                    num_classes=45, 
                                     embed_dim=128,
                                     depths=[2, 2, 18, 2],
                                     num_heads=[4, 8, 16, 32],

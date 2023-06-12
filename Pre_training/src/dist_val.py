@@ -12,8 +12,6 @@ def image_val_TSX_OSU(dataloader, device,model,world_size, training = False):
     data_num = 0.0
     val_loss = 0.0
     criterion = nn.CrossEntropyLoss()
-    # criterion = Affinity_Loss(lambd = 0.1)
-    # with torch.no_grad():
     with torch.no_grad():
         for data in dataloader:
             inputs = data['image'].to(device)
@@ -89,9 +87,9 @@ def image_val_BEN(dataloader, device,model,world_size,training = False):
             val_loss += loss
     if device != torch.device("cpu"):
                 torch.cuda.synchronize(device)
-    # sum_num = reduce_value(acc_num, args.world_size, average=True)
+
     val_loss = reduce_value(val_loss, world_size, average=True)
-    # top1_acc = sum_num / data_num
+
     val_loss /= len(dataloader)
-    # print('YES',top1_acc,val_loss)
+
     return acc, prec, recal, val_loss

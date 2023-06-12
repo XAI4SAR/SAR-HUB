@@ -158,7 +158,7 @@ If you need to conduct experiments of SAR object detection or sementic segmentat
 
   - **model_prepare.py**: Configuration code for loading models.
 
-  - **models**: Base configuration folder for Network structure code. In most cases, there is no need to change it.
+  - **models**: Base configuration folder for CNN and ViT structure code. In most cases, there is no need to change it.
   
 
 #### **Target Recognition**
@@ -176,17 +176,6 @@ If you need to conduct experiments of SAR object detection or sementic segmentat
   The file directory tree is as below:
 
   ```
-  ├── dataset
-  │   ├── MSTAR
-  │   │   ├── SOC
-  │   │   │   ├── train
-  │   │   │   ├── ...
-  │   ├── FuSARShip
-  │   │   │   ├── train
-  │   │   │   ├── ...
-  │   ├── OpenSARShip
-  │   │   │   ├── train
-  │   │   │   ├── ...
   ├── data
   │   ├── FSS
   │   │   ├── test.txt
@@ -229,9 +218,8 @@ If you need to conduct experiments of SAR object detection or sementic segmentat
 
   - **transform.py** and **data_transform.py**: Code for several basic transformation used in the experiments.
 
-  - **network.py**: Configuration code for CNN network structure code. In most cases, there is no need to change it.
 
-  - **models**: Base configuration folder for ViT structure code. In most cases, there is no need to change it.
+  - **models**: Base configuration folder for CNN and ViT structure code. In most cases, there is no need to change it.
 
 #### **Object Detection**
 

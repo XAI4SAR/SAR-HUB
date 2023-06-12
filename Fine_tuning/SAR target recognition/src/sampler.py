@@ -1,13 +1,11 @@
 import torch
 import torch.utils.data
 import torchvision
-# import dataset
 import numpy as np
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset, Subset
 import OpenSARship_dataset
 import FuSARship_dataset
-# from large_18 import OpenSARshipDataset
 
 class ImbalancedDatasetSampler(torch.utils.data.sampler.Sampler):
     """Samples elements randomly from a given list of indices for imbalanced dataset
