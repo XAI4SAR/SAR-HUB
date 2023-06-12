@@ -253,70 +253,66 @@ def KP_visual(type,img_path,b,noise_path,save_path):
     img2[:,:,1] = img
     img2[:,:,2] = img
     combine_img = cv2.addWeighted(cv2.resize(img2,(128,128)),0.7,cv2.resize(Visual_KP,(128,128)),0.3,0)
-    combine_img = imgBrightness(combine_img, 1.5, 0)
     cv2.imwrite(os.path.join(save_path,img_HX_path.split('/')[-1].replace('.jpg', '_KPvisual_b='+str(b)+'_combine.jpg')),combine_img)
-    Visual_KP2 = np.full((128,128,3),255)
-    Visual_KP2[:,:,0] = back[0]
-    Visual_KP2[:,:,1] = back[1]
-    Visual_KP2[:,:,2] = back[2]
     
-    bordline_shadow = np.full((128,128),0)
-    bordline_target = np.full((128,128),0)
-    for coord in All_KP:
-            row_min = coord[0]*8            ## 上色区域
-            row_max = (coord[0]+1)*8-1
-            col_min = coord[1]*8
-            col_max = (coord[1]+1)*8-1
-            if coord in shadow_hx_coord:
-                bordline_shadow[row_min:row_max+1,col_min:col_max+1] = 255
-                bordline_shadow[row_min:row_max+1,col_min:col_max+1] = 255
-                bordline_shadow[row_min:row_max+1,col_min:col_max+1] = 255
-    for coord in All_KP:
-            row_min = coord[0]*8            ## 上色区域
-            row_max = (coord[0]+1)*8-1
-            col_min = coord[1]*8
-            col_max = (coord[1]+1)*8-1
-            if coord in tar_hx_coord:
-                bordline_target[row_min:row_max+1,col_min:col_max+1] = 255
-                bordline_target[row_min:row_max+1,col_min:col_max+1] = 255
-                bordline_target[row_min:row_max+1,col_min:col_max+1] = 255
-    both_white = bordline_target-bordline_shadow
-    for i,v in np.ndenumerate(bordline_target):
-        left_up = bordline_target(i[0]-1,i[1]-1)
-        stra_up = bordline_target(i[0]-1,i[1])
-        right_up = bordline_target(i[0],i[1]-1)
-    target_255_1 = np.argwhere(bordline_target==255).tolist()
-    shadow_255_1 = np.argwhere(bordline_shadow==255).tolist()
-    bordline_target = get_contour(bordline_target)          ## 提取后为0的像素代表边缘
-    bordline_shadow = get_contour(bordline_shadow)          ## 提取后为0的像素代表边缘
-    target_bord = np.argwhere(bordline_target==0).tolist()
-    shadow_bord = np.argwhere(bordline_shadow==0).tolist()
-    target_255 = [i for i in target_255_1 if i not in target_bord]
-    shadow_255 = [i for i in shadow_255_1 if i not in shadow_bord]
-    # del shadow_bord[-1]
-    bord_both = []
+    ### draw the bordline
+    # Visual_KP2 = np.full((128,128,3),255)
+    # Visual_KP2[:,:,0] = back[0]
+    # Visual_KP2[:,:,1] = back[1]
+    # Visual_KP2[:,:,2] = back[2]
+    
+    # bordline_shadow = np.full((128,128),0)
+    # bordline_target = np.full((128,128),0)
+    # for coord in All_KP:
+    #         row_min = coord[0]*8            ## 上色区域
+    #         row_max = (coord[0]+1)*8-1
+    #         col_min = coord[1]*8
+    #         col_max = (coord[1]+1)*8-1
+    #         if coord in shadow_hx_coord:
+    #             bordline_shadow[row_min:row_max+1,col_min:col_max+1] = 255
+    #             bordline_shadow[row_min:row_max+1,col_min:col_max+1] = 255
+    #             bordline_shadow[row_min:row_max+1,col_min:col_max+1] = 255
+    # for coord in All_KP:
+    #         row_min = coord[0]*8            ## 上色区域
+    #         row_max = (coord[0]+1)*8-1
+    #         col_min = coord[1]*8
+    #         col_max = (coord[1]+1)*8-1
+    #         if coord in tar_hx_coord:
+    #             bordline_target[row_min:row_max+1,col_min:col_max+1] = 255
+    #             bordline_target[row_min:row_max+1,col_min:col_max+1] = 255
+    #             bordline_target[row_min:row_max+1,col_min:col_max+1] = 255
+    # both_white = bordline_target-bordline_shadow
+    # for i,v in np.ndenumerate(bordline_target):
+    #     left_up = bordline_target(i[0]-1,i[1]-1)
+    #     stra_up = bordline_target(i[0]-1,i[1])
+    #     right_up = bordline_target(i[0],i[1]-1)
+    # target_255_1 = np.argwhere(bordline_target==255).tolist()
+    # shadow_255_1 = np.argwhere(bordline_shadow==255).tolist()
+    # bordline_target = get_contour(bordline_target)          ## 提取后为0的像素代表边缘
+    # bordline_shadow = get_contour(bordline_shadow)          ## 提取后为0的像素代表边缘
+    # target_bord = np.argwhere(bordline_target==0).tolist()
+    # shadow_bord = np.argwhere(bordline_shadow==0).tolist()
+    # target_255 = [i for i in target_255_1 if i not in target_bord]
+    # shadow_255 = [i for i in shadow_255_1 if i not in shadow_bord]
+
+    # bord_both = []
+    # img2 = np.zeros_like(Visual_KP2)
+    # img2[:,:,0] = img
+    # img2[:,:,1] = img
+    # img2[:,:,2] = img
+    # all_bord = target_bord+shadow_bord
+
     # for i in target_bord:
-    #     if i in shadow_bord:
-    #         bord_both.append(i)
-    img2 = np.zeros_like(Visual_KP2)
-    img2[:,:,0] = img
-    img2[:,:,1] = img
-    img2[:,:,2] = img
-    all_bord = target_bord+shadow_bord
-    # for i in all_bord:
-    #     if i in targ
-    for i in target_bord:
-        # if i not in shadow_255:
-            img2[i[0],i[1],0] = 0
-            img2[i[0],i[1],1] = 0
-            img2[i[0],i[1],2] = 255
-    for i in shadow_bord:
-        if i not in target_255 and i not in target_bord:
-            img2[i[0],i[1],0] = 0
-            img2[i[0],i[1],1] = 255
-            img2[i[0],i[1],2] = 0
-    cv2.imwrite('/home/hzl/STAT2/YHD/pycharm_YHD/knowledge-point/src/final_KP/'+ '_KP2visual_b='+str(b)+'_combine.jpg',Visual_KP2)
-    cv2.imwrite(os.path.join(save_path,img_HX_path.split('/')[-1].replace('.jpg', '_KPvisual_b='+str(b)+'_Add2Ori.jpg')),img2)
+    #         img2[i[0],i[1],0] = 0
+    #         img2[i[0],i[1],1] = 0
+    #         img2[i[0],i[1],2] = 255
+    # for i in shadow_bord:
+    #     if i not in target_255 and i not in target_bord:
+    #         img2[i[0],i[1],0] = 0
+    #         img2[i[0],i[1],1] = 255
+    #         img2[i[0],i[1],2] = 0
+    # cv2.imwrite('_KP2visual_b='+str(b)+'_combine.jpg',Visual_KP2)
+    # cv2.imwrite(os.path.join(save_path,img_HX_path.split('/')[-1].replace('.jpg', '_KPvisual_b='+str(b)+'_Add2Ori.jpg')),img2)
 def GrayToRGB(img):
     src = img[:,:,0]
     src_gray = img
@@ -334,24 +330,26 @@ def GrayToRGB(img):
     src_new[:,:,1] = G
     src_new[:,:,2] = R
     return src_new
-path_noise = 'src/ALL_'
-path_img = 'MSTAR/SOC/img'
-save_path = 'src/list_final'
-target = []
-shadow = []
-lines = os.listdir(path_img)
 
-noise_path = path_noise+Type
-Target = []
-Shadow = []
-Back = []
-b=0.3
-for img in lines:       
-    img_path = os.path.join(path_img,img)
-    Target_number_kp,Shadow_number_kp = KP_visual(Type,img_path,b,noise_path,save_path)
-    Target.append(Target_number_kp)
-    Shadow.append(Shadow_number_kp)
-    Sar_target.append(Target)
-    Sar_shadow.append(Shadow)
-    out_KP_number(target)
-    out_KP_number(shadow)
+if __name__ == '__main__':
+    path_noise = 'src/ALL_'
+    path_img = 'MSTAR/SOC/img'
+    save_path = 'src/list_final'
+    target = []
+    shadow = []
+    lines = os.listdir(path_img)
+
+    noise_path = path_noise+Type
+    Target = []
+    Shadow = []
+    Back = []
+    b=0.3
+    for img in lines:       
+        img_path = os.path.join(path_img,img)
+        Target_number_kp,Shadow_number_kp = KP_visual(Type,img_path,b,noise_path,save_path)
+        Target.append(Target_number_kp)
+        Shadow.append(Shadow_number_kp)
+        Sar_target.append(Target)
+        Sar_shadow.append(Shadow)
+        out_KP_number(target)
+        out_KP_number(shadow)
