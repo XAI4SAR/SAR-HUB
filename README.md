@@ -1,5 +1,26 @@
 # SAR-HUB
 
+## 0. Table of Contents
+
+* [Introduction](#1-introduction)
+    * [Features](#11-features) 
+    * [Contributions](#12-contributions)
+* [Previously on SAR-HUB](#2-previously-on-sar-hub)
+* [Getting Started](#3-getting-started)
+    * [Requirements](#31-requirements)
+    * [Pre-training](#32-pre-training)
+        * [Data](#321-data-preparation)
+        * [Initialization](#322-initialization)
+        * [Optimization](#323-drae-and-mini-cbl)
+    * [Fine-tuning](#33-fine-tuning)
+        * [Model Hub](#331-model-hub)
+        * [SAR Target Recognition](#332-sar-target-recognition)
+        * [SAR Object Detection](#333-sar-object-detection)
+        * [SAR Semantic Segmentation](#334-sar-semantic-segmentation)
+    * [Explaining](#34-explaining)
+* [Contributors](#4-contributors)
+* [Citation](#5-citation)
+
 ## 1. Introduction
 
 This project is for paper "SAR-HUB: Pre-training, Fine-tuning, and Explaining".
@@ -118,7 +139,7 @@ The file directory tree is as below:
 
 
 
-#### 3.2.3 Train with DRAE and mini-CBL
+#### 3.2.3 DRAE and mini-CBL
 
 <!--   We recommend you to use GPUs but not a CPU to train and test, because it will greatly shorten the time. -->
 
@@ -146,7 +167,6 @@ The file directory tree is as below:
   ```
 <!--   The results will be written to *result.txt* when using *nohup*. If you want to observe the training process on the terminal, delete *nohup* and *> result.txt*. -->
 
-#### 3.2.3 Test
 
 <!-- 同train.py，把参数作为外部输入 -->
 
@@ -251,7 +271,7 @@ The file directory tree is as below:
 
   - **models**: Base configuration folder for CNN and ViT structure code. In most cases, there is no need to change it. -->
 
-#### 3.3.3 Object Detection
+#### 3.3.3 SAR Object Detection
 
 The object detection are based on MMDetection framework,combining Feature Pyramid Networks (FPN) and Fully Convolutional One Stage (FCOS), and we have not changed any of it. Therefore, we only give the *SAR config* and *\_\_base\_\_* and introduce how to use them.
 
@@ -301,7 +321,7 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
   
   The results will be written to the log save path you set in each config file.
 
-#### 3.3.4 Sementic Segmentation
+#### 3.3.4 SAR Semantic Segmentation
 
 <!-- 同上修改 We adopt DeepLabv3 under MMSegmentation framework during the experiments. Similar to the object detection task, we give the *SAR config* and *\_\_base\_\_* and introduce how to use them.
 
@@ -386,10 +406,10 @@ If you want to get more intuitive visualization results, you can use *KP_visual.
 - **KP_visual.py**: Code for get the visualization of KP. You can choose where the visual results saved in this file. -->
 
 
-## Contributors
+## 4. Contributors
 
 In this repository, we implemented the ResNet series, DenseNet121, MobileNetV3, SENet50 and Swin series. The datasets we used contain TerraSAR-X, BigEarthNet-S1.0, openSARUrban, MSTAR, FuSARShip, OpenSARShip, SSDD, LS-SSDDv1.0, HRSID and SpaceNet6. Besides, we reimplemented FCOS on PyTorch based on MMDetection and Deeplabv3 based on MMSegmentation. Thanks for all the above works' contribution.
 
-## Citation
+## 5. Citation
 
 If you find this repository useful for your publications, please consider citing our paper.
