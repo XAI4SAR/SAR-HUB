@@ -343,6 +343,8 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
 
 ### 3.4 Explaining
 
+<!--  按步骤来，每个步骤运行完，都能得到对应的结果，最好给出输出的例子（图例）-->
+
 (1) U-Net explainer optimization:
 
 ```bash
