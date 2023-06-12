@@ -367,12 +367,16 @@ We provide 3 models under each architecture, which are trained on TerraSAR-X (TS
 
 |Backbone | Input size | Pretrained model|Backbone | Input size | Pretrained model|
 |-------- | ---------- | ----------|-------- | ---------- | ----------|
-ResNet18 | 128 × 128 |  [baidu](https://pan.baidu.com/s/1nh-FTrVz7-LBev-fGpunPQ) (Extraction code:hy18)|MobileNetV3| 128 × 128 |  [baidu](https://pan.baidu.com/s/13Nvo8DCXszqlKgpzXWNR7A)(Extraction code:hymb)|
-ResNet50 | 128 × 128 | [baidu](https://pan.baidu.com/s/1BXVR014Aecc9J4wZlOu1ew) (Extraction code:hy50)|DenseNet121 | 128 × 128 |  [baidu](https://pan.baidu.com/s/19pmJFoT35Wz2jemkuf6KPA)(Extraction code:hyde)|
-ResNet101 | 128 × 128  | [baidu](https://pan.baidu.com/s/1OIQ5MFsmTWxiH-Smlb441g)(Extraction code:hy01)|Swin-T | 128 × 128 |  [baidu](https://pan.baidu.com/s/17hEe6251Yo63LKLI3PpTvg)(Extraction code:hyst)|
-SENet50  | 128 × 128  | [baidu](https://pan.baidu.com/s/1rACPLIHdCxruFTVUhyipoQ)(Extraction code:hyse)|Swin-B | 128 × 128 |  [baidu](https://pan.baidu.com/s/1NlJfC4SnGFCotfwyl-za6Q)(Extraction code:hysb)|
+ResNet18 | 128×128 |  [baidu](https://pan.baidu.com/s/1nh-FTrVz7-LBev-fGpunPQ) (Extraction code:hy18)|MobileNetV3| 128×128 |  [baidu](https://pan.baidu.com/s/13Nvo8DCXszqlKgpzXWNR7A) (Extraction code:hymb)|
+ResNet50 | 128×128 | [baidu](https://pan.baidu.com/s/1BXVR014Aecc9J4wZlOu1ew) (Extraction code:hy50)|DenseNet121 | 128×128 |  [baidu](https://pan.baidu.com/s/19pmJFoT35Wz2jemkuf6KPA) (Extraction code:hyde)|
+ResNet101 | 128×128  | [baidu](https://pan.baidu.com/s/1OIQ5MFsmTWxiH-Smlb441g) (Extraction code:hy01)|Swin-T | 128×128 |  [baidu](https://pan.baidu.com/s/17hEe6251Yo63LKLI3PpTvg) (Extraction code:hyst)|
+SENet50  | 128×128  | [baidu](https://pan.baidu.com/s/1rACPLIHdCxruFTVUhyipoQ) (Extraction code:hyse)|Swin-B | 128×128 |  [baidu](https://pan.baidu.com/s/1NlJfC4SnGFCotfwyl-za6Q) (Extraction code:hysb)|
 
 
 ## Contributors
 
 In this repository, we implemented the ResNet series, DenseNet121, MobileNetV3, SENet50 and Swin series. The datasets we used contain TerraSAR-X, BigEarthNet-S1.0, openSARUrban, MSTAR, FuSARShip, OpenSARShip, SSDD, LS-SSDDv1.0, HRSID and SpaceNet6. Besides, we reimplemented FCOS on PyTorch based on MMDetection and Deeplabv3 based on MMSegmentation. Thanks for all the above works' contribution.
+
+## Citation
+
+If you find this repository useful for your publications, please consider citing our paper.
