@@ -175,5 +175,5 @@ def parameter_setting():
         config['cate_num'] = 10                     
     return config
 if __name__ == '__main__':
-    config = parameter_setting()s
+    config = parameter_setting()
     image_test(config)

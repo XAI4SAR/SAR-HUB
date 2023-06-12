@@ -124,5 +124,5 @@ if __name__ == '__main__':
     UpDataset = 'TSX'
     print('UpDataset:',UpDataset,'----------------------------','Model:',Model_type)
     tensorboard_save = 'knowledge_point_OPT_Pretrain'
-    save_path = '/home/hzl/STAT2/YHD/pycharm_YHD/knowledge-point/model/optical_pre/'
+    save_path = 'model/optical_pre/'
     Mag_Train(Model_type,tensorboard_save,save_path)
