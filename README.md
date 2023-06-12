@@ -171,7 +171,7 @@ If you need to conduct experiments of SAR object detection or sementic segmentat
 
   FuSARShip: https://radars.ac.cn/web/data/getData?dataType=FUSAR
 
-  MSTAR：https://pan.baidu.com/s/1SAdmYAOHPheAH98CLP9dQg Code: h2ig
+  MSTAR：https://www.sdms.afrl.af.mil/index.php?collection=mstar 
 
   The file directory tree is as below:
 
@@ -241,7 +241,7 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
 
   You need to download the SSDD dataset, HRSID dataset and LS-SSDDv1.0 dataset for this task. 
 
-  SSDD: https://pan.baidu.com/s/1sVs63jB_aM-RbcHEaWQgTg Code: 4pz1
+  SSDD: https://drive.google.com/file/d/1grDw3zbGjQKYPjOxv9-h4WSUctoUvu1O/view
 
   HRSID: https://aistudio.baidu.com/aistudio/datasetdetail/54512
   
@@ -327,7 +327,7 @@ We adopt DeepLabv3 under MMSegmentation framework during the experiments. Simila
 
 We use SAR KP on the MSTAR dataset. So you need to download it firstly:
 
-MSTAR：https://pan.baidu.com/s/1SAdmYAOHPheAH98CLP9dQg Code: h2ig
+MSTAR：https://www.sdms.afrl.af.mil/index.php?collection=mstar 
 
 The code are proposed [here](SAR_KP).
 
