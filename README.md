@@ -33,8 +33,7 @@ This project is for paper "SAR-HUB: Pre-training, Fine-tuning, and Explaining".
     
 3.  **Explaining:** Benefits of SAR pre-trained models in comparison to optical pre-trained models are explained.
     
-
-![The project overview.](img/intro.png)
+<img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/intro.png" width="60%">
 
 We release this repository with reproducibility (open-source code and datasets), generalization (sufficient experiments on different tasks), and explainability (qualitative and quantitative explanations).
 
