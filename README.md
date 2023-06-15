@@ -32,9 +32,9 @@ This project is for paper "SAR-HUB: Pre-training, Fine-tuning, and Explaining".
 2.  **Fine-tuning:** The pre-trained DNNs are transferred to diverse SAR downstream tasks.
     
 3.  **Explaining:** Benefits of SAR pre-trained models in comparison to optical pre-trained models are explained.
-    
+<div align=center>
 <img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/intro.png" width="60%">
-
+</div>
 We release this repository with reproducibility (open-source code and datasets), generalization (sufficient experiments on different tasks), and explainability (qualitative and quantitative explanations).
 
 ### 1.2 Contributions
@@ -367,18 +367,18 @@ python train.py --model_path ResNet50_OSU.pth --tensorboard knowledge_point_SAR 
 python test_disturbance.py --unet_path UNet_TSX_MSTAR.pth --resnet_path ResNet50_OSU.pth --img HB03335.000_Mag.npy
 ```
 The visualization of the disturbance and its corrsponding npy will be generated. An example is given below.
-
-<img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/disturbance.jpg" width="40%">
-
+<div align=center>
+<img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/dis.png" width="40%">
+</div>
 (3) Get knowledge point.
 ```bash
 python KP_visual.py --b 0.3 --img HB03335.000_Mag.npy --disturbance_npy HB03335.000_Mag_dis.npy --save_path img/KP_0.3/ 
 ```
 
 The visualization results of the knowledge points will be generated.
-
+<div align=center>
 <img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/KP.png" width="80%">
-
+</div>
 ## 4. Contributors
 
 In this repository, we implemented the ResNet series, DenseNet121, MobileNetV3, SENet50 and Swin series. The datasets we used contain TerraSAR-X, BigEarthNet-S1.0, openSARUrban, MSTAR, FuSARShip, OpenSARShip, SSDD, LS-SSDDv1.0, HRSID and SpaceNet6. Besides, we reimplemented FCOS on PyTorch based on MMDetection and Deeplabv3 based on MMSegmentation. Thanks for all the above works' contribution.
