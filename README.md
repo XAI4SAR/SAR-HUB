@@ -320,7 +320,7 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
 
  We adopt DeepLabv3 under MMSegmentation framework during the experiments. Similar to the object detection task, we give the *SAR config* and *\_\_base\_\_* and introduce how to use them.
 
-* Data Preparation
+**Data Preparation**
 
   SpaceNet6: https://spacenet.ai/sn6-challenge/
 
