@@ -368,7 +368,7 @@ python test_disturbance.py --unet_path UNet_TSX_MSTAR.pth --resnet_path ResNet50
 ```
 The visualization of the disturbance and its corrsponding npy will be generated. An example is given below.
 
-<img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/disturbance.jpg" width="60%">
+<img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/disturbance.jpg" width="80%">
 
 (3) Get knowledge point.
 ```bash
@@ -377,7 +377,7 @@ python KP_visual.py --b 0.3 --img HB03335.000_Mag.npy --disturbance_npy HB03335.
 
 The visualization results of the knowledge points will be generated.
 
-<img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/KP.png" width="60%">
+<img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/KP.png" width="80%">
 
 ## 4. Contributors
 
