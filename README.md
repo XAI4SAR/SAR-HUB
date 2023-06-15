@@ -258,29 +258,10 @@ The file directory tree is as below:
   The train/test splitting settings used in our experiments can be found in data/FSS, data/MSTAR, and data/OSS
 
 **Usage of SAR Pre-trained Models**
-
-<!--   Before starting training, please change the parameters in *main.py*, including model type and so on.
-
-  Then you can use the command below to start a training procedure: -->
   
   ```bash
   CUDA_VISIBLE_DEVICES=0 python main.py --model ResNet50 --dataset MSTAR --dataset_sub MSTAR_10 --pre_class 32 --pretrained_path ResNet18_TSX.pth
   ```
-  
-
-<!-- 
-  **The explanation of significant code file or folder is as follows**:
-
-  - **main.py**: Code for training and validation in each epoch. The main parameters are needed checking in this file. You need to start traning from this file.
- 
-  - **sampler.py**: Code for ImbalancedDatasetSampler.
-
-  - **{}_dataset.py** and **read_dataset.py**: Code for reading data of each datasets. You may need to change them because we use the *npy* format in experiments.
-
-  - **transform.py** and **data_transform.py**: Code for several basic transformation used in the experiments.
-
-
-  - **models**: Base configuration folder for CNN and ViT structure code. In most cases, there is no need to change it. -->
 
 #### 3.3.3 SAR Object Detection
 
@@ -375,47 +356,30 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
 ### 3.4 Explaining
 
 <!--  按步骤来，每个步骤运行完，都能得到对应的结果，最好给出输出的例子（图例）-->
+The code are proposed [here](Eaplaining).
 
 (1) U-Net explainer optimization:
 
 ```bash
-
+python train.py --model_path ResNet50_OSU.pth --tensorboard knowledge_point_SAR --save_path models/ResNet50_Unet/ --sample_time 15 
 ```
 
-(2) xxx
-
-The code are proposed [here](SAR_KP).
-
-<!-- #### **Train and Get_KP**
-
-The ResNet-50 model used in KP is firstly trained on the MSTAR dataset. Then we connect it with U-Net to explain it. Before training, you need to change the parameters in the *train.py*, including the save path and the loaded model.
-
-You can use the command below to start the training:
-
+(2) Get disturbance:
 ```bash
-  python train.py
+python test_disturbance.py --unet_path UNet_TSX_MSTAR.pth --resnet_path ResNet50_OSU.pth --img HB03335.000_Mag.npy
 ```
-Notably, we don't use validation dataset during train, so you may need to use *tensorboard* or other training process visualization tool to check whether the training is normal by observing the loss curve. 
+The python file will save the visualization of the disturbance and its corrsponding. An example is given below.
 
-After training, you need to run the *test_Get_KP.py* to get KP. The visualization and the values of disturbance will be saved in *jpg* and *npy* format respectively.
+<img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/disturbance.png" width="60%">
 
-If you want to get more intuitive visualization results, you can use *KP_visual.py* to colored the disturbance.
- -->
-<!-- 
-#### **Explanation of significant code file or folder**
+(3) Get knowledge point.
+```bash
+python KP_visual.py --b 0.3 --img HB03335.000_Mag.npy --disturbance_npy HB03335.000_Mag_dis.npy --save_path img/KP_0.3/ 
+```
 
-- **train.py**: Code for training. The main parameters are needed checking in this file. You need to start traning from this file. In most cases, there is no need to change it.
+The visualization results of the knowledge points will be generated.
 
-- **test_get_KP.py**: Code for getting the visualization and the values of disturbance.
-
-- **MSTARdataset.py** and **read_dataset.py**: Code for reading data. 
-
-- **data_transform.py**: Code for basic transformation used in the experiments.
-
-- **unet.py** and **resnet.py**: Code for U-Net and ResNet structure.
-
-- **KP_visual.py**: Code for get the visualization of KP. You can choose where the visual results saved in this file. -->
-
+<img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/KP.png" width="60%">
 
 ## 4. Contributors
 
