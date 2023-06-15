@@ -20,6 +20,7 @@
     * [Explaining](#34-explaining)
 * [Contributors](#4-contributors)
 * [Citation](#5-citation)
+* [References](#6-References)
 
 ## 1. Introduction
 
