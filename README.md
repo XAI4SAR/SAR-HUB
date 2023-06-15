@@ -153,7 +153,7 @@ The ResNet-18 optical remote sensing pre-trained model is given by our previous 
 
   The usage of DRAE with Reinhard-Devlin:
   ```bash
-  --DRAE PTLS
+  --DRAE Reinhard
   ```
   The usage of Mini-CBL with Focal Loss: 
   ```bash
