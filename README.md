@@ -184,6 +184,8 @@ The ResNet-18 optical remote sensing pre-trained model is given by our previous 
 
 <!-- 同train.py，把参数作为外部输入 -->
 
+In inference stage, please use the command below:
+
   ```bash
   python test.py --pretrained_path ResNet18_TSX.pth --model ResNet18 --dataset OpenSARUrban --DRAE PTLS
   ```
@@ -264,8 +266,9 @@ The file directory tree is as below:
 
 **Usage of SAR Pre-trained Models**
   
+ An example of training MSTAR with 10% dataset with ResNet50 model trained on TerraSAR-X dataset:
   ```bash
-  CUDA_VISIBLE_DEVICES=0 python main.py --model ResNet50 --dataset MSTAR --dataset_sub MSTAR_10 --pre_class 32 --pretrained_path ResNet18_TSX.pth
+  CUDA_VISIBLE_DEVICES=0 python main.py --model ResNet50 --dataset MSTAR --dataset_sub MSTAR_10 --pre_class 32 --pretrained_path ResNet50_TSX.pth
   ```
 
 #### 3.3.3 SAR Object Detection
