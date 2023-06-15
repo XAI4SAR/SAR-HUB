@@ -310,8 +310,7 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
   ```bash
   CUDA_VISIBLE_DEVICES=3 python tools/train.py mmdetection-master/configs/SAR/SAR config/fcos_r18_caffe_fpn_gn-head_4x4_HRSID.py
   ```
-  
-  The results will be written to the log save path you set in each config file.
+
 
 #### 3.3.4 SAR Semantic Segmentation
 
@@ -350,8 +349,7 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
   ```bash
   CUDA_VISIBLE_DEVICES=3 python tools/train.py configs/SAR/SAR config/deeplabv3_d121_20k_SN6.py
   ```
-  
-  The results will be written to the log save path you set in each config file. 
+
 
 ### 3.4 Explaining
 
