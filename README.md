@@ -366,7 +366,7 @@ python train.py --model_path ResNet50_OSU.pth --tensorboard knowledge_point_SAR 
 ```bash
 python test_disturbance.py --unet_path UNet_TSX_MSTAR.pth --resnet_path ResNet50_OSU.pth --img HB03335.000_Mag.npy
 ```
-The python file will save the visualization of the disturbance and its corrsponding. An example is given below.
+The visualization of the disturbance and its corrsponding npy will be generated. An example is given below.
 
 <img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/disturbance.png" width="60%">
 
