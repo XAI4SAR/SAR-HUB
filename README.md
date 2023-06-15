@@ -134,9 +134,12 @@ The file directory tree is as below:
 
 <!--   Of course, if you want to store data in your own style, then please change the *137th* and *93rd* lines of [datasets.py](SAR_scene_classification/src/dataset.py) according to the data path you store. -->
 
-45872313
+
 #### 3.2.2 Initialization
 
+In our previous work, transitive transfer learning was proposed to refine the feature extraction ability from natural image to optical remote sensing image and to SAR images. We follow this learning pipeline to train the SAR models using optical remote sensing pre-trained models. 
+
+The ResNet-18 optical remote sensing pre-trained model is given by our previous work [2], and the ResNet-50 and Swin-T optical remote sensing pre-trained models are provided in reference[1]. The other 6 optical remote sensing pre-trained models are uploaded to [baidu](https://pan.baidu.com/s/1AGyd3YSRXn64K2fsDh9DGw code: hypr).
 
 
 #### 3.2.3 DRAE and mini-CBL
@@ -147,23 +150,31 @@ The file directory tree is as below:
 
   The usage of DRAE with Reinhard-Devlin:
   ```bash
-  --xxx xx
+  --DRAE PTLS
   ```
-  The usage of mini-CBL with Focal Loss: 
+  The usage of Mini-CBL with Focal Loss: 
   ```bash
-  --loss_type Mini_CB_FL
+  --loss Mini_CB_FL
   ```
   
   An example of training OpenSARUrban with DRAE and mini-CBL using Multiple GPUs:
   
   ```bash
-  CUDA_VISIBLE_DEVICES=0,1,2,3 nohup python -m torch.distributed.launch --nproc_per_node=4 main.py > result.txt
+  CUDA_VISIBLE_DEVICES=0,1,2,3 python -m torch.distributed.launch --nproc_per_node=4 main.py\
+   --if_sto 1 --model ResNet18 \
+   --pretrained_path resnet18_I_nwpu_cate45.pth \
+   --save_model_path model/ResNet18/ \
+   --dataset OpenSARUrban --loss Mini_CB_FL --DRAE PTLS\
   ```
   
   If you want to use a single GPU, set *CUDA_VISIBLE_DEVICES* to the serial number of a single GPU and change *--nproc_per_node* to 1:
   
   ```bash
-  CUDA_VISIBLE_DEVICES=0 nohup python -m torch.distributed.launch --nproc_per_node=1 main.py > result.txt
+  CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 main.py\
+   --if_sto 1 --model ResNet18\
+  --pretrained_path resnet18_I_nwpu_cate45.pth\
+  --save_model_path model/ResNet18/\
+  --dataset OpenSARUrban --loss Mini_CB_FL --DRAE PTLS
   ```
 <!--   The results will be written to *result.txt* when using *nohup*. If you want to observe the training process on the terminal, delete *nohup* and *> result.txt*. -->
 
@@ -171,7 +182,7 @@ The file directory tree is as below:
 <!-- 同train.py，把参数作为外部输入 -->
 
   ```bash
-  python test.py --xxx xxx
+  python test.py --pretrained_path ResNet18_TSX.pth --model ResNet18 --dataset OpenSARUrban --DRAE PTLS
   ```
 
 <!--   **The explanation of significant code file or folder is as follows**:
@@ -253,10 +264,10 @@ The file directory tree is as below:
   Then you can use the command below to start a training procedure: -->
   
   ```bash
-  CUDA_VISIBLE_DEVICES=0 nohup python train.py > SENet_FuSARship_TSX.txt
+  CUDA_VISIBLE_DEVICES=0 python main.py --model ResNet50 --dataset MSTAR --dataset_sub MSTAR_10 --pre_class 32 --pretrained_path ResNet18_TSX.pth
   ```
   
-<!--   这些细节没必要在readme里写。The results will be written to *SENet_FuSARship_TSX.txt* when using *nohup*. If you want to observe the training process on the terminal, delete *nohup* and *> SENet_FuSARship_TSX.txt*. -->
+
 <!-- 
   **The explanation of significant code file or folder is as follows**:
 
@@ -323,13 +334,13 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
 
 #### 3.3.4 SAR Semantic Segmentation
 
-<!-- 同上修改 We adopt DeepLabv3 under MMSegmentation framework during the experiments. Similar to the object detection task, we give the *SAR config* and *\_\_base\_\_* and introduce how to use them.
+ We adopt DeepLabv3 under MMSegmentation framework during the experiments. Similar to the object detection task, we give the *SAR config* and *\_\_base\_\_* and introduce how to use them.
 
 * Data Preparation
 
-  You need to download the SpaceNet6 dataset for this task. 
-
   SpaceNet6: https://spacenet.ai/sn6-challenge/
+
+**Usage of SAR Pre-trained Models**
 
   The file directory tree in MMSegmentation is as below:
 
@@ -359,7 +370,7 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
   CUDA_VISIBLE_DEVICES=3 python tools/train.py configs/SAR/SAR config/deeplabv3_d121_20k_SN6.py
   ```
   
-  The results will be written to the log save path you set in each config file. -->
+  The results will be written to the log save path you set in each config file. 
 
 ### 3.4 Explaining
 
@@ -368,7 +379,7 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
 (1) U-Net explainer optimization:
 
 ```bash
-xxx
+
 ```
 
 (2) xxx
@@ -413,3 +424,14 @@ In this repository, we implemented the ResNet series, DenseNet121, MobileNetV3, 
 ## 5. Citation
 
 If you find this repository useful for your publications, please consider citing our paper.
+
+## 6. References
+
+[1] An Empirical Study of Remote Sensing Pretraining, IEEE TGRS 2022.
+
+doi: [10.1109/TGRS.2022.3176603](https://doi.org/10.1109/TGRS.2022.3176603)
+
+[2] Classification of Large-Scale High-Resolution SAR Images with Deep Transfer Learning, IEEE GRSL 2020
+
+doi:  [10.1109/LGRS.2020.2965558](https://doi.org/10.1109/LGRS.2020.2965558) 
+
