@@ -371,8 +371,9 @@ The visualization of the disturbance and its corrsponding npy will be generated.
 <img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/dis.png" width="40%">
 </div>
 (3) Get knowledge point.
+
 ```bash
-python KP_visual.py --b 0.3 --img HB03335.000_Mag.npy --disturbance_npy HB03335.000_Mag_dis.npy --save_path img/KP_0.3/ 
+python KP_visual.py --b 0.3 --img HB03335.000_Mag.npy --disturbance_npy HB03335.000_Mag_dis.npy --save_path img/KP_0.3/
 ```
 
 The visualization results of the knowledge points will be generated.
