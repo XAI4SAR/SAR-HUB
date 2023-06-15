@@ -97,6 +97,8 @@ If you need to conduct experiments of SAR object detection or sementic segmentat
 
 ### 3.2 Pre-training
 
+The code are proposed [here](Pre-training). We will complete the pivotal code after the paper is accepted.
+
 The file directory tree is as below:
 
   ```
@@ -206,6 +208,8 @@ The ResNet-18 optical remote sensing pre-trained model is given by our previous 
   - **models**: Base configuration folder for CNN and ViT structure code. In most cases, there is no need to change it. -->
   
 ### 3.3 Fine-tuning
+
+The fine-tuning code are under [Fine-tuning](Fine-tuning). 
 
 #### 3.3.1 Model Hub
 
@@ -354,7 +358,7 @@ The object detection are based on MMDetection framework,combining Feature Pyrami
 ### 3.4 Explaining
 
 <!--  按步骤来，每个步骤运行完，都能得到对应的结果，最好给出输出的例子（图例）-->
-The code are proposed [here](Eaplaining).
+The code are in [Explaining](Eaplaining). We will complete the pivotal code after the paper is accepted.
 
 (1) U-Net explainer optimization:
 
@@ -363,13 +367,17 @@ python train.py --model_path ResNet50_OSU.pth --tensorboard knowledge_point_SAR 
 ```
 
 (2) Get disturbance:
+
 ```bash
 python test_disturbance.py --unet_path UNet_TSX_MSTAR.pth --resnet_path ResNet50_OSU.pth --img HB03335.000_Mag.npy
 ```
+
 The visualization of the disturbance and its corrsponding npy will be generated. An example is given below.
+
 <div align=center>
 <img src="https://github.com/XAI4SAR/SAR-HUB/blob/main/img/dis.png" width="40%">
 </div>
+
 (3) Get knowledge point.
 
 ```bash
