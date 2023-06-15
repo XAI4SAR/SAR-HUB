@@ -137,9 +137,9 @@ The file directory tree is as below:
 
 #### 3.2.2 Initialization
 
-In our previous work, transitive transfer learning was proposed to refine the feature extraction ability from natural image to optical remote sensing image and to SAR images. We follow this learning pipeline to train the SAR models using optical remote sensing pre-trained models. 
+We follow this transitive transfer learning to train the SAR models using optical remote sensing pre-trained models. 
 
-The ResNet-18 optical remote sensing pre-trained model is given by our previous work [2], and the ResNet-50 and Swin-T optical remote sensing pre-trained models are provided in reference[1]. The other 6 optical remote sensing pre-trained models are uploaded to [baidu](https://pan.baidu.com/s/1AGyd3YSRXn64K2fsDh9DGw code: hypr).
+The ResNet-18 optical remote sensing pre-trained model is given by our previous work [2], and the ResNet-50 and Swin-T optical remote sensing pre-trained models are provided in reference[1]. The other 6 optical remote sensing pre-trained models trained ourselves are uploaded to [baidu](https://pan.baidu.com/s/1AGyd3YSRXn64K2fsDh9DGw) (code: hypr).
 
 
 #### 3.2.3 DRAE and mini-CBL
