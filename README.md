@@ -20,11 +20,12 @@
     * [Explaining](#34-explaining)
 * [Contributors](#4-contributors)
 * [Citation](#5-citation)
-* [References](#6-References)
 
 ## 1. Introduction
 
 This project is for paper "SAR-HUB: Pre-training, Fine-tuning, and Explaining".
+
+https://www.mdpi.com/2072-4292/15/23/5534
 
 ### 1.1 Features
 
@@ -401,13 +402,17 @@ In this repository, we implemented the ResNet series, DenseNet121, MobileNetV3, 
 
 If you find this repository useful for your publications, please consider citing our paper.
 
-## 6. References
-
-[1] An Empirical Study of Remote Sensing Pretraining, IEEE TGRS 2022.
-
-doi: [10.1109/TGRS.2022.3176603](https://doi.org/10.1109/TGRS.2022.3176603)
-
-[2] Classification of Large-Scale High-Resolution SAR Images with Deep Transfer Learning, IEEE GRSL 2020
-
-doi:  [10.1109/LGRS.2020.2965558](https://doi.org/10.1109/LGRS.2020.2965558) 
+```LaTeX
+@Article{rs15235534,
+AUTHOR = {Yang, Haodong and Kang, Xinyue and Liu, Long and Liu, Yujiang and Huang, Zhongling},
+TITLE = {SAR-HUB: Pre-Training, Fine-Tuning, and Explaining},
+JOURNAL = {Remote Sensing},
+VOLUME = {15},
+YEAR = {2023},
+NUMBER = {23},
+URL = {https://www.mdpi.com/2072-4292/15/23/5534},
+ISSN = {2072-4292},
+DOI = {10.3390/rs15235534}
+}
+```
 
